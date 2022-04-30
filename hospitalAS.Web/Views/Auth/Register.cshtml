@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutAuth.cshtml";
+}
+
+<div id="test-form" class="white-popup-block border">
+    <div class="popup_box ">
+        <div class="popup_inner">
+            <h3>Kayıt Ol</h3>
+            <form method="post">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <input type="text" id="name" placeholder="Ad">
+                    </div>
+                    <div class="col-xl-12">
+                        <input type="text" id="surname" placeholder="Soyad">
+                    </div>
+                    <div class="col-xl-12">
+                        <input type="text" id="phone" placeholder="Numara">
+                    </div>
+                    <div class="col-xl-12">
+                        Kan Grubu
+                        @*<select asp-items="@Viewbag.BloodTypes">
+                            <option value="value">text</option>
+                        </select>*@
+                    </div>
+                    <div class="col-xl-12">
+                        <input type="text" id="identityNumber" placeholder="TC Kimlik No">
+                    </div>
+
+                    <div class="col-xl-12">
+                        <input type="password" id="password" placeholder="Şifre">
+                    </div>
+                    <div class="col-xl-12">
+                        <button type="button" onclick="SignUpUser()" class="boxed-btn3">Kaydol</button>
+                    </div>
+                    <!--end::Action-->
+                    <div class="pb-10 pb-lg-15">
+                        <div class="text-muted font-weight-bold font-size-h4 mt-2 ml-3">
+                            Zaten Hesabın Var Mı?
+                            <a asp-action="Index" asp-controller="Auth" class="text-primary font-weight-bolder">Giriş Yap</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function SignUpUser() {
+        debugger;
+        var formData = {
+            name: $("#name").val(),
+            surname: $("#surname").val(),
+            identityNumber: $("#identityNumber").val(),
+            phone: $("#phone").val(),
+            password: $("#password").val()
+        };
+        $.ajax({
+            method: 'POST',
+            url: '/Auth/Register/',
+            data: formData
+        }).done(function (data) {
+            if (data == "true") {
+                alertify.success("Kaydınız başarıyla oluşturuldu");
+            }
+            else if ("notExist") {
+                alertify.error("Bu kullanıcı adı daha önceden alınmış");
+            } else {
+                alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
+            }
+        });
+    }
+
+</script>

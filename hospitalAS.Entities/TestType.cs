@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Entities
 {
-    public class TestType
+    public class TestType : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Test> Tests { get; set; }
+        public ICollection<Test> Tests { get; set; }
     }
 }

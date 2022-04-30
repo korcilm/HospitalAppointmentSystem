@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Entities
 {
-    public class Test
+    public class Test : IEntity
     {
         public int Id { get; set; }
         public int? PatientId { get; set; }

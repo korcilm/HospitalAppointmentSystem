@@ -1,6 +1,9 @@
+using hospitalAS.Business.DIContainer;
+using hospitalAS.DataAccess.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +27,9 @@ namespace hospitalAS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var connectionString = Configuration.GetConnectionString("db");
+            services.AddDbContext<hospitalASDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddContainerWithDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

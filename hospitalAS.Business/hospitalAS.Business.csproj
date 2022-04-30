@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\hospitalAS.DataAccess\hospitalAS.DataAccess.csproj" />
+    <ProjectReference Include="..\hospitalAS.Dto\hospitalAS.Dto.csproj" />
+  </ItemGroup>
+
+</Project>

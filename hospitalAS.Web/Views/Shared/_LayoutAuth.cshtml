@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/theme/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- CSS here -->
+    <link rel="stylesheet" href="~/theme/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/theme/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/theme/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/theme/css/themify-icons.css">
+    <link rel="stylesheet" href="~/theme/css/nice-select.css">
+    <link rel="stylesheet" href="~/theme/css/flaticon.css">
+    <link rel="stylesheet" href="~/theme/css/gijgo.css">
+    <link rel="stylesheet" href="~/theme/css/animate.css">
+    <link rel="stylesheet" href="~/theme/css/slicknav.css">
+    <link rel="stylesheet" href="~/theme/css/style.css">
+    <!-- <link rel="stylesheet" href="~/theme/css/responsive.css"> -->
+    <link href="~/lib/alertify/css/alertify.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <!-- JS here -->
+    <script src="~/theme/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="~/theme/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/theme/js/popper.min.js"></script>
+    <script src="~/theme/js/bootstrap.min.js"></script>
+    <script src="~/theme/js/owl.carousel.min.js"></script>
+    <script src="~/theme/js/isotope.pkgd.min.js"></script>
+    <script src="~/theme/js/ajax-form.js"></script>
+    <script src="~/theme/js/waypoints.min.js"></script>
+    <script src="~/theme/js/jquery.counterup.min.js"></script>
+    <script src="~/theme/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/theme/js/scrollIt.js"></script>
+    <script src="~/theme/js/jquery.scrollUp.min.js"></script>
+    <script src="~/theme/js/wow.min.js"></script>
+    <script src="~/theme/js/nice-select.min.js"></script>
+    <script src="~/theme/js/jquery.slicknav.min.js"></script>
+    <script src="~/theme/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/theme/js/plugins.js"></script>
+    <script src="~/theme/js/gijgo.min.js"></script>
+    <!--contact js-->
+    <script src="~/theme/js/contact.js"></script>
+    <script src="~/theme/js/jquery.ajaxchimp.min.js"></script>
+    <script src="~/theme/js/jquery.form.js"></script>
+    <script src="~/theme/js/jquery.validate.min.js"></script>
+    <script src="~/theme/js/mail-script.js"></script>
+
+    <script src="~/theme/js/main.js"></script>
+
+    <script>
+        $('#datepicker').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+                rightIcon: '<span class="fa fa-caret-down"></span>'
+            }
+        });
+        $('#datepicker2').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+                rightIcon: '<span class="fa fa-caret-down"></span>'
+            }
+
+        });
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+    <script src="~/lib/alertify/alertify.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
