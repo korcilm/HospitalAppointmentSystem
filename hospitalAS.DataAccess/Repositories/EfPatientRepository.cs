@@ -1,6 +1,7 @@
 ﻿using hospitalAS.DataAccess.Data;
 using hospitalAS.DataAccess.Interfaces;
 using hospitalAS.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace hospitalAS.DataAccess.Repositories
         {
             _context = context;
         }
-     
+
+        public async Task<Patient> GetPatientLogin(string identityNumber, string password)
+        {
+            return await _context.Patients.Where(x => x.IdentityNumber == identityNumber && x.Password == password).FirstOrDefaultAsync();
+        }
     }
 }

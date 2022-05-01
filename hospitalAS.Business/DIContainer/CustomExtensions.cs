@@ -16,7 +16,9 @@ namespace hospitalAS.Business.DIContainer
         public static void AddContainerWithDependencies(this IServiceCollection services)
         {
             services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPatientRepository, EfPatientRepository>();            
+            services.AddScoped<IPatientRepository, EfPatientRepository>();    
+            services.AddScoped<IBloodTypeService, BloodTypeService>();
+            services.AddScoped<IBloodTypeRepository, EfBloodTypeRepository>();            
             services.AddScoped(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
 
         }

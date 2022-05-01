@@ -1,5 +1,7 @@
 using hospitalAS.Business.DIContainer;
+using hospitalAS.Business.Mapping.AutoMapper;
 using hospitalAS.DataAccess.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +31,15 @@ namespace hospitalAS.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("db");
             services.AddDbContext<hospitalASDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddAutoMapper(typeof(MapProfile));
             services.AddContainerWithDependencies();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(opt =>
+                    {
+                        opt.LoginPath = "/Auth/Login";
+                        opt.AccessDeniedPath = "/Auth/AccessDenied";
+                    });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +59,7 @@ namespace hospitalAS.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

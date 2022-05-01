@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Dto.PatientDtos
 {
-    public class SignInDto
+    public class LoginDto
     {
         [MaxLength(11, ErrorMessage = "Maksimum 11 karakter girmelisiniz")]
         public string IdentityNumber { get; set; }

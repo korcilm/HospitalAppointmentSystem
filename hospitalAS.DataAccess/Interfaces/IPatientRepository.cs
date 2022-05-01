@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.DataAccess.Interfaces
 {
-    public interface IPatientRepository:IGenericRepository<Patient>
+    public interface IPatientRepository : IGenericRepository<Patient>
     {
-
+        Task<Patient> GetPatientLogin(string identityNumber, string password);
     }
 }

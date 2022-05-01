@@ -1,4 +1,4 @@
-﻿
+﻿@model RegisterDto
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_LayoutAuth.cshtml";
@@ -8,69 +8,60 @@
     <div class="popup_box ">
         <div class="popup_inner">
             <h3>Kayıt Ol</h3>
-            <form method="post">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <input type="text" id="name" placeholder="Ad">
-                    </div>
-                    <div class="col-xl-12">
-                        <input type="text" id="surname" placeholder="Soyad">
-                    </div>
-                    <div class="col-xl-12">
-                        <input type="text" id="phone" placeholder="Numara">
-                    </div>
-                    <div class="col-xl-12">
-                        Kan Grubu
-                        @*<select asp-items="@Viewbag.BloodTypes">
-                            <option value="value">text</option>
-                        </select>*@
-                    </div>
-                    <div class="col-xl-12">
-                        <input type="text" id="identityNumber" placeholder="TC Kimlik No">
-                    </div>
+            <form asp-action="Register" asp-controller="Auth" method="post">
 
-                    <div class="col-xl-12">
-                        <input type="password" id="password" placeholder="Şifre">
+                <div class="col-xl-12 row">
+                    <div class="col-xl-6">
+                        <input type="text" asp-for="Name" placeholder="Ad">
+                        <span asp-validation-for="Name" class="text-danger"> </span>
                     </div>
-                    <div class="col-xl-12">
-                        <button type="button" onclick="SignUpUser()" class="boxed-btn3">Kaydol</button>
-                    </div>
-                    <!--end::Action-->
-                    <div class="pb-10 pb-lg-15">
-                        <div class="text-muted font-weight-bold font-size-h4 mt-2 ml-3">
-                            Zaten Hesabın Var Mı?
-                            <a asp-action="Index" asp-controller="Auth" class="text-primary font-weight-bolder">Giriş Yap</a>
-                        </div>
+                    <div class="col-xl-6 float-right">
+                        <input type="text" asp-for="Surname" placeholder="Soyad">
+                        <span asp-validation-for="Surname" class="text-danger"> </span>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="col-xl-12">
+                    <input type="text" asp-for="PhoneNumber" placeholder="Telefon Numarası">
+                    <span asp-validation-for="PhoneNumber" class="text-danger"> </span>
+                </div>
+                <div class="col-xl-12 row">
+                    <div class="col-xl-6">
+                        <label class="float-left">Kan Grubu Seçiniz</label>
+                        <select class="form-select wide" asp-for="BloodTypeId" asp-items="@ViewBag.BloodTypes">
+                        </select>
+                        <span asp-validation-for="BloodTypeId" class="text-danger"> </span>
+                    </div>
+                    <div class="col-xl-6">
+                        <label class="float-left">Doğum Tarihiniz</label>
+                        <input type="date" asp-for="BirthDate" />
+                        <span asp-validation-for="BirthDate" class="text-danger"> </span>
+                    </div>
+                </div>
+
+                <div class="col-xl-12">
+                    <textarea asp-for="Address" placeholder="Adres Giriniz"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"> </span>
+                </div>
+                <div class="col-xl-12">
+                    <input type="text" asp-for="IdentityNumber" placeholder="TC Kimlik No">
+                    <span asp-validation-for="IdentityNumber" class="text-danger"> </span>
+                </div>
+
+                <div class="col-xl-12">
+                    <input type="password" asp-for="Password" placeholder="Şifre">
+                    <span asp-validation-for="Password" class="text-danger"> </span>
+                </div>
+                <div class="col-xl-12">
+                    <button type="submit" class="boxed-btn3">Kaydol</button>
+                </div>
+                <!--end::Action-->
+                <div class="pb-10 pb-lg-15">
+                    <div class="text-muted font-weight-bold font-size-h4 mt-2 ml-3">
+                        Zaten Hesabın Var Mı?
+                        <a asp-action="Index" asp-controller="Auth" class="text-primary font-weight-bolder">Giriş Yap</a>
+                    </div>
+                </div>
+        </form>
     </div>
 </div>
-<script>
-    function SignUpUser() {
-        debugger;
-        var formData = {
-            name: $("#name").val(),
-            surname: $("#surname").val(),
-            identityNumber: $("#identityNumber").val(),
-            phone: $("#phone").val(),
-            password: $("#password").val()
-        };
-        $.ajax({
-            method: 'POST',
-            url: '/Auth/Register/',
-            data: formData
-        }).done(function (data) {
-            if (data == "true") {
-                alertify.success("Kaydınız başarıyla oluşturuldu");
-            }
-            else if ("notExist") {
-                alertify.error("Bu kullanıcı adı daha önceden alınmış");
-            } else {
-                alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
-            }
-        });
-    }
-
-</script>
+</div>

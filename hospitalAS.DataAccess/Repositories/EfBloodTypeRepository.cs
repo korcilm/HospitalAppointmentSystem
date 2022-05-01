@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.DataAccess.Repositories
 {
-    public class EfBloodTypeRepository : EfGenericRepository<Patient>, IPatientRepository
+    public class EfBloodTypeRepository : EfGenericRepository<BloodType>, IBloodTypeRepository
     {
         private readonly hospitalASDbContext _context;
 
