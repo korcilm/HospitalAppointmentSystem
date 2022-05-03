@@ -1,6 +1,7 @@
 ﻿using hospitalAS.DataAccess.Data;
 using hospitalAS.DataAccess.Interfaces;
 using hospitalAS.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace hospitalAS.DataAccess.Repositories
         public EfPoliclinicRepository(hospitalASDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<IList<Policlinic>> GetPoliclinicsByHospitalId(int id)
+        {
+            return await _context.Policlinics.Where(x => x.HospitalId == id).ToListAsync();
         }
     }
 }

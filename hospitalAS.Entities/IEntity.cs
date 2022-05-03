@@ -11,3 +11,4 @@ namespace hospitalAS.Entities
         int Id { get; set; }
     }
 }
+//TODO Recete tablosu eklenecek

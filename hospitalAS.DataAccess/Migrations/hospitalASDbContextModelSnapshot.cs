@@ -32,7 +32,13 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PoliclinicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -40,6 +46,8 @@ namespace hospitalAS.DataAccess.Migrations
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("PoliclinicId");
 
                     b.ToTable("Appointments");
                 });
@@ -105,6 +113,26 @@ namespace hospitalAS.DataAccess.Migrations
                     b.ToTable("Doctors");
                 });
 
+            modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TownId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TownId");
+
+                    b.ToTable("Hospital");
+                });
+
             modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
                 {
                     b.Property<int>("Id")
@@ -155,15 +183,15 @@ namespace hospitalAS.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("HospitalId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TownId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TownId");
+                    b.HasIndex("HospitalId");
 
                     b.ToTable("Policlinics");
                 });
@@ -248,9 +276,17 @@ namespace hospitalAS.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("hospitalAS.Entities.Policlinic", "Policlinic")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PoliclinicId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("Policlinic");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Doctor", b =>
@@ -262,6 +298,15 @@ namespace hospitalAS.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Policlinic");
+                });
+
+            modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
+                {
+                    b.HasOne("hospitalAS.Entities.Town", "Town")
+                        .WithMany("Hospitals")
+                        .HasForeignKey("TownId");
+
+                    b.Navigation("Town");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
@@ -277,11 +322,13 @@ namespace hospitalAS.DataAccess.Migrations
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
                 {
-                    b.HasOne("hospitalAS.Entities.Town", "Town")
+                    b.HasOne("hospitalAS.Entities.Hospital", "Hospital")
                         .WithMany("Policlinics")
-                        .HasForeignKey("TownId");
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Town");
+                    b.Navigation("Hospital");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Test", b =>
@@ -323,6 +370,11 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Navigation("Appointments");
                 });
 
+            modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
+                {
+                    b.Navigation("Policlinics");
+                });
+
             modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
                 {
                     b.Navigation("Appointments");
@@ -332,6 +384,8 @@ namespace hospitalAS.DataAccess.Migrations
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Doctors");
                 });
 
@@ -342,7 +396,7 @@ namespace hospitalAS.DataAccess.Migrations
 
             modelBuilder.Entity("hospitalAS.Entities.Town", b =>
                 {
-                    b.Navigation("Policlinics");
+                    b.Navigation("Hospitals");
                 });
 #pragma warning restore 612, 618
         }

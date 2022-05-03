@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.DataAccess.Interfaces
 {
-    public interface IDoctorRepository : IGenericRepository<Doctor>
+    public interface IHospitalRepository:IGenericRepository<Hospital>
     {
-        Task<IList<Doctor>> GetDoctorsByPoliclinicId(int id);
     }
 }

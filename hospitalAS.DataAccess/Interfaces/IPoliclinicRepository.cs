@@ -9,5 +9,6 @@ namespace hospitalAS.DataAccess.Interfaces
 {
     public interface IPoliclinicRepository : IGenericRepository<Policlinic>
     {
+        Task<IList<Policlinic>> GetPoliclinicsByHospitalId(int id);
     }
 }

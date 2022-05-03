@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hospitalAS.Entities
+namespace hospitalAS.Dto.PoliclinicDtos
 {
-    public class Town : IEntity
+    public class PoliclinicDropdownListDto
     {
         public int Id { get; set; }
-        public int? CityId { get; set; }
         public string Name { get; set; }
-        public City City { get; set; }
-        public ICollection<Hospital> Hospitals { get; set; }
     }
 }

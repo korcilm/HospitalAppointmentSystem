@@ -29,6 +29,10 @@ namespace hospitalAS.DataAccess.Data
             modelBuilder.Entity<Appointment>().HasOne(p => p.Patient)
                                               .WithMany(p => p.Appointments)
                                               .HasForeignKey(p => p.PatientId)
+                                              .OnDelete(DeleteBehavior.NoAction); 
+            modelBuilder.Entity<Appointment>().HasOne(p => p.Policlinic)
+                                              .WithMany(p => p.Appointments)
+                                              .HasForeignKey(p => p.PoliclinicId)
                                               .OnDelete(DeleteBehavior.NoAction);
         }
     }

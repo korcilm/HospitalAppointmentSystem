@@ -1,5 +1,6 @@
-﻿using hospitalAS.Dto.DoctorDtos;
+﻿using hospitalAS.Dto.HospitalDtos;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Interfaces
 {
-    public interface IDoctorService
+    public interface IHospitalService
     {
-        Task<IList<DoctorDropdownListDto>> GetDoctorsByPoliclinicId(int id);
+        Task<IList<HospitalDropdownListDto>> GetAllHospitals();
     }
 }

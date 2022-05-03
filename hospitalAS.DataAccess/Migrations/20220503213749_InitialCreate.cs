@@ -122,23 +122,43 @@ namespace hospitalAS.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Hospital",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TownId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hospital", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hospital_Towns_TownId",
+                        column: x => x.TownId,
+                        principalTable: "Towns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Policlinics",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TownId = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HospitalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Policlinics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Policlinics_Towns_TownId",
-                        column: x => x.TownId,
-                        principalTable: "Towns",
+                        name: "FK_Policlinics_Hospital_HospitalId",
+                        column: x => x.HospitalId,
+                        principalTable: "Hospital",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,7 +192,9 @@ namespace hospitalAS.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PoliclinicId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,6 +210,11 @@ namespace hospitalAS.DataAccess.Migrations
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Policlinics_PoliclinicId",
+                        column: x => x.PoliclinicId,
+                        principalTable: "Policlinics",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -201,9 +228,19 @@ namespace hospitalAS.DataAccess.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Appointments_PoliclinicId",
+                table: "Appointments",
+                column: "PoliclinicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_PoliclinicId",
                 table: "Doctors",
                 column: "PoliclinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hospital_TownId",
+                table: "Hospital",
+                column: "TownId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_BloodTypeId",
@@ -211,9 +248,9 @@ namespace hospitalAS.DataAccess.Migrations
                 column: "BloodTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Policlinics_TownId",
+                name: "IX_Policlinics_HospitalId",
                 table: "Policlinics",
-                column: "TownId");
+                column: "HospitalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tests_PatientId",
@@ -253,6 +290,9 @@ namespace hospitalAS.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "BloodTypes");
+
+            migrationBuilder.DropTable(
+                name: "Hospital");
 
             migrationBuilder.DropTable(
                 name: "Towns");

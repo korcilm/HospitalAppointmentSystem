@@ -10,6 +10,6 @@ namespace hospitalAS.Business.Interfaces
 {
     public interface IBloodTypeService
     {
-        Task<IList<BloodTypeListDto>> GetAllBloodTypes();
+        Task<IList<BloodTypeDropdownListDto>> GetAllBloodTypes();
     }
 }

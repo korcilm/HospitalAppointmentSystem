@@ -20,10 +20,16 @@ namespace hospitalAS.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<IList<PoliclinicListDto>> GetAllPoliclinics()
+        //public async Task<IList<PoliclinicDropdownListDto>> GetAllPoliclinics()
+        //{
+        //    var policlinics = await _policlinicRepository.GetAllEntities();
+        //    return _mapper.Map<IList<PoliclinicDropdownListDto>>(policlinics);
+        //}
+
+        public async Task<IList<PoliclinicDropdownListDto>> GetPoliclinicsByHospitalId(int id)
         {
-            var policlinics = await _policlinicRepository.GetAllEntities();
-            return _mapper.Map<IList<PoliclinicListDto>>(policlinics);
+            var policlinics = await _policlinicRepository.GetPoliclinicsByHospitalId(id);
+            return _mapper.Map<IList<PoliclinicDropdownListDto>>(policlinics);
         }
     }
 }

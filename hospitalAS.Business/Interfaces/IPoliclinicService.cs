@@ -10,6 +10,7 @@ namespace hospitalAS.Business.Interfaces
 {
     public interface IPoliclinicService
     {
-        Task<IList<PoliclinicListDto>> GetAllPoliclinics();
+        //Task<IList<PoliclinicDropdownListDto>> GetAllPoliclinics();
+        Task<IList<PoliclinicDropdownListDto>> GetPoliclinicsByHospitalId(int id);
     }
 }

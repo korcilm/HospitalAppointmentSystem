@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Entities
 {
-    public class Town : IEntity
+    public class Hospital:IEntity
     {
         public int Id { get; set; }
-        public int? CityId { get; set; }
         public string Name { get; set; }
-        public City City { get; set; }
-        public ICollection<Hospital> Hospitals { get; set; }
+        public int? TownId { get; set; }
+        public Town Town { get; set; }
+        public ICollection<Policlinic> Policlinics { get; set; }
     }
 }

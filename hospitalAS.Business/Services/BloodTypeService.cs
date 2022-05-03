@@ -21,10 +21,10 @@ namespace hospitalAS.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<IList<BloodTypeListDto>> GetAllBloodTypes()
+        public async Task<IList<BloodTypeDropdownListDto>> GetAllBloodTypes()
         {
             var bloodTypes = await _bloodTypeRepository.GetAllEntities();
-            return _mapper.Map<IList<BloodTypeListDto>>(bloodTypes);
+            return _mapper.Map<IList<BloodTypeDropdownListDto>>(bloodTypes);
         }
     }
 }
