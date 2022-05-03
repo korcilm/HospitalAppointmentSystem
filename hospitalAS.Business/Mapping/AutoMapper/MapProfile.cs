@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using hospitalAS.Dto.BloodTypeDtos;
 using hospitalAS.Dto.PatientDtos;
+using hospitalAS.Dto.PoliclinicDtos;
 using hospitalAS.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace hospitalAS.Business.Mapping.AutoMapper
         public MapProfile()
         {
             CreateMap<BloodType, BloodTypeListDto>();
+            CreateMap<Policlinic, PoliclinicListDto>();
             CreateMap<RegisterDto, Patient>();
         }
     }

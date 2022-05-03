@@ -36,7 +36,7 @@ namespace hospitalAS.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(opt =>
                     {
-                        opt.LoginPath = "/Auth/Login";
+                        opt.LoginPath = "/Auth/Index";
                         opt.AccessDeniedPath = "/Auth/AccessDenied";
                     });
 

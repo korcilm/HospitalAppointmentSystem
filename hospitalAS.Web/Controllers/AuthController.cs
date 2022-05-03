@@ -37,8 +37,6 @@ namespace hospitalAS.Web.Controllers
                     {
                         new Claim(ClaimTypes.Name, patient.Name),
                         new Claim(ClaimTypes.Surname, patient.Surname),
-                         // TODO 4: Role eklenecek
-                        //new Claim(ClaimTypes.Role, patient.Role),
                     };
 
                     ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
