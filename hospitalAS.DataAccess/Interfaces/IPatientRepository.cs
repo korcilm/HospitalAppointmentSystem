@@ -10,5 +10,6 @@ namespace hospitalAS.DataAccess.Interfaces
     public interface IPatientRepository : IGenericRepository<Patient>
     {
         Task<Patient> GetPatientLogin(string identityNumber, string password);
+        Task<int> GetUserIdByIdentityNumber(string identityNumber);
     }
 }

@@ -24,7 +24,9 @@ namespace hospitalAS.Business.DIContainer
             services.AddScoped<IPoliclinicService, PoliclinicService>();
             services.AddScoped<IPoliclinicRepository, EfPoliclinicRepository>();       
             services.AddScoped<IHospitalService, HospitalService>();
-            services.AddScoped<IHospitalRepository, EfHospitalRepository>();            
+            services.AddScoped<IHospitalRepository, EfHospitalRepository>();        
+            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IAppointmentRepository, EfAppointmentRepository>();            
             services.AddScoped(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
 
         }

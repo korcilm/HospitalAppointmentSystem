@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using hospitalAS.Dto.AppointmentDtos;
 using hospitalAS.Dto.BloodTypeDtos;
 using hospitalAS.Dto.DoctorDtos;
 using hospitalAS.Dto.HospitalDtos;
@@ -22,6 +23,7 @@ namespace hospitalAS.Business.Mapping.AutoMapper
             CreateMap<Doctor, DoctorDropdownListDto>();
             CreateMap<Hospital, HospitalDropdownListDto>();
             CreateMap<RegisterDto, Patient>();
+            CreateMap<AppointmentDto, Appointment>();
         }
     }
 }

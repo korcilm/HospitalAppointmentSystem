@@ -6,6 +6,7 @@ using hospitalAS.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace hospitalAS.Business.Services
         public async Task<int> AddPatient(RegisterDto model)
         {
             return await _patientRepository.Add(_mapper.Map<Patient>(model));
+        }
+
+        public async Task<int> GetUserIdByIdentityNumber(string identityNumber)
+        {
+            return await _patientRepository.GetUserIdByIdentityNumber(identityNumber);
         }
 
         public async Task<Patient> PatientLogin(string identityNumber, string password)

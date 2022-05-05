@@ -10,7 +10,7 @@
     <div class="mt-4 row card-body ">
         <div class="col-md-3">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-outline-info btn-lg px-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-outline-info btn-lg px-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
                 Randevu Al
             </button>
 
@@ -52,7 +52,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade " id="appointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,19 +68,19 @@
                     </div>
                     <div class="mt-10">
                         <label class="float-left">Poliklinik Seçiniz</label>
-                        <select disabled class="form-select wide" onchange="policlinicChange()" id="policlinicId" >
+                        <select disabled class="form-select wide" onchange="policlinicChange()" id="policlinicId">
                         </select>
                     </div>
                     <div class="mt-10">
                         <label class="float-left">Doctor Seçiniz</label>
-                        <select disabled class="form-select wide" id="doctorId" >
+                        <select disabled class="form-select wide" id="doctorId">
                         </select>
                     </div>
                     <div class="mt-10">
                         <label class="float-left">Randevu Tarihi Seçiniz</label>
                         <input type="datetime-local" id="date" />
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -91,88 +91,90 @@
     </div>
 </div>
 
-@section Scripts{ 
+@section Scripts{
     <script>
-        function hospitalChange() {
-            debugger;
-            var id = document.getElementById("hospitalId").value;
-            if (id > 0) {
-                $.ajax({
-                    method: "GET",
-                    url: "/Home/PoliclinicList/" + id,
-                }).done(function (content) {
-                    $("#policlinicId").attr("disabled", false);
-                    $("#policlinicId").removeClass("text-muted");
-                    $("#policlinicId").empty();
-                    $("#policlinicId").append('<option value="-1">Poliklinik Seçiniz</option>');
-                    debugger;
-                    let policlinic = JSON.parse(content);
-                    for (var i = 0; i < policlinic.length; i++) {
-                        var opt = '<option value="' + policlinic[i].Id + '">' + policlinic[i].Name  '</option>';
-                        $("#policlinicId").append(opt);
-                    }
-                }).fail(function (error) {
+        $(document).ready(function () {
+            //hastane seçimine göre poliklinik getirme
+            function hospitalChange() {
 
-                });
-            } else {
-                $("#doctorId").empty();
-                $("#doctorId").append('<option value="-1">Doktor Seçiniz</option>');
-                $("#doctorId").attr("disabled", true);
-                $("#doctorId").addClass("text-muted");
-            }
-        }
-        function policlinicChange() {
-            var id = document.getElementById("policlinicId").value;
-            if (id > 0) {
-                $.ajax({
-                    method: "GET",
-                    url: "/Home/DoctorList/" + id,
-                }).done(function (content) {
-                    $("#doctorId").attr("disabled", false);
-                    $("#doctorId").removeClass("text-muted");
+                var id = document.getElementById("hospitalId").value;
+                if (id > 0) {
+                    $.ajax({
+                        method: "GET",
+                        url: "/Home/PoliclinicList/" + id,
+                    }).done(function (content) {
+                        $("#policlinicId").attr("disabled", false);
+                        $("#policlinicId").removeClass("text-muted");
+                        $("#policlinicId").empty();
+                        $("#policlinicId").append('<option value="-1">Poliklinik Seçiniz</option>');
+
+                        let policlinic = JSON.parse(content);
+                        for (var i = 0; i < policlinic.length; i++) {
+                            var opt = '<option value="' + policlinic[i].Id + '">' + policlinic[i].Name + '</option>';
+                            $("#policlinicId").append(opt);
+                        }
+                    }).fail(function (error) {
+
+                    });
+                } else {
                     $("#doctorId").empty();
                     $("#doctorId").append('<option value="-1">Doktor Seçiniz</option>');
-                    debugger;
-                    let doctor = JSON.parse(content);
-                    for (var i = 0; i < doctor.length; i++) {
-                        var opt = '<option value="' + doctor[i].Id + '">' + doctor[i].Name +' '+doctor[i].Surname + '</option>';
-                        $("#doctorId").append(opt);
-                    }
-                }).fail(function (error) {
-
-                });
-            } else {
-                $("#doctorId").empty();
-                $("#doctorId").append('<option value="-1">Doktor Seçiniz</option>');
-                $("#doctorId").attr("disabled", true);
-                $("#doctorId").addClass("text-muted");
+                    $("#doctorId").attr("disabled", true);
+                    $("#doctorId").addClass("text-muted");
+                }
             }
-        }
+            //poliklinik seçimine göre doktor getirme
+            function policlinicChange() {
+                var id = document.getElementById("policlinicId").value;
+                if (id > 0) {
+                    $.ajax({
+                        method: "GET",
+                        url: "/Home/DoctorList/" + id,
+                    }).done(function (content) {
+                        $("#doctorId").attr("disabled", false);
+                        $("#doctorId").removeClass("text-muted");
+                        $("#doctorId").empty();
+                        $("#doctorId").append('<option value="-1">Doktor Seçiniz</option>');
 
-        function takeAnAppoinment() {
-            var formData = {
-                name: $("#name").val(),
-                surname: $("#surname").val(),
-                username: $("#username").val(),
-                phone: $("#phone").val(),
-                email: $("#email").val(),
-                password: $("#password").val()
-            };
-            $.ajax({
-                method: 'POST',
-                url: '/Auth/Register/',
-                data: formData
-            }).done(function (data) {
-                if (data == "true") {
-                    alertify.success("Kaydınız başarıyla oluşturuldu");
-                }
-                else if ("notExist") {
-                    alertify.error("Bu kullanıcı adı daha önceden alınmış");
+                        let doctor = JSON.parse(content);
+                        for (var i = 0; i < doctor.length; i++) {
+                            var opt = '<option value="' + doctor[i].Id + '">' + doctor[i].Name + ' ' + doctor[i].Surname + '</option>';
+                            $("#doctorId").append(opt);
+                        }
+                    }).fail(function (error) {
+
+                    });
                 } else {
-                    alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
+                    $("#doctorId").empty();
+                    $("#doctorId").append('<option value="-1">Doktor Seçiniz</option>');
+                    $("#doctorId").attr("disabled", true);
+                    $("#doctorId").addClass("text-muted");
                 }
-            });
-        }
+            }
+            //randevu alma
+            function takeAnAppoinment() {
+                var formData = {
+                    hospitalId: $("#hospitalId").val(),
+                    policlinicId: $("#policlinicId").val(),
+                    doctorId: $("#doctorId").val(),
+                    date: $("#date").val(),
+                };
+                $.ajax({
+                    method: 'POST',
+                    url: '/Home/TakeAnAppointment/',
+                    data: formData
+                }).done(function (data) {
+                    if (data == "true") {
+                        alertify.success("Kaydınız başarıyla oluşturuldu");
+                        $(".btn-close").trigger('click');
+                    }
+                    else {
+                        alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
+                    }
+                });
+            }
+        });
+
     </script>
 
 }

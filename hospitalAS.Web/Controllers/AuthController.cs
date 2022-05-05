@@ -37,6 +37,7 @@ namespace hospitalAS.Web.Controllers
                     {
                         new Claim(ClaimTypes.Name, patient.Name),
                         new Claim(ClaimTypes.Surname, patient.Surname),
+                        new Claim(ClaimTypes.NameIdentifier, patient.IdentityNumber),
                     };
 
                     ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -65,6 +66,12 @@ namespace hospitalAS.Web.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
         }
 
     }

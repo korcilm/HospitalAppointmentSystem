@@ -23,5 +23,12 @@ namespace hospitalAS.DataAccess.Repositories
         {
             return await _context.Patients.Where(x => x.IdentityNumber == identityNumber && x.Password == password).FirstOrDefaultAsync();
         }
+
+        public async Task<int> GetUserIdByIdentityNumber(string identityNumber)
+        {
+            var user= await _context.Patients.Where(x => x.IdentityNumber == identityNumber).FirstOrDefaultAsync();
+            return user.Id;
+
+        }
     }
 }

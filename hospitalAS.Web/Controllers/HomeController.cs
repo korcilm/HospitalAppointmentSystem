@@ -1,4 +1,5 @@
 ﻿using hospitalAS.Business.Interfaces;
+using hospitalAS.Dto.AppointmentDtos;
 using hospitalAS.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace hospitalAS.Web.Controllers
@@ -20,18 +22,23 @@ namespace hospitalAS.Web.Controllers
         private readonly IPoliclinicService _policlinicService;
         private readonly IDoctorService _doctorService;
         private readonly IHospitalService _hospitalService;
+        private readonly IAppointmentService _appointmentService;
+        private readonly IPatientService _patientService;
 
-        public HomeController(ILogger<HomeController> logger, IPoliclinicService policlinicService, IDoctorService doctorService, IHospitalService hospitalService)
+        public HomeController(ILogger<HomeController> logger, IPoliclinicService policlinicService, IDoctorService doctorService,
+            IHospitalService hospitalService, IAppointmentService appointmentService, IPatientService patientService)
         {
             _logger = logger;
             _doctorService = doctorService;
             _policlinicService = policlinicService;
             _hospitalService = hospitalService;
+            _appointmentService = appointmentService;
+            _patientService = patientService;
         }
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Hospitals = new SelectList(await _hospitalService.GetAllHospitals(), "Id", "Name"); 
+            ViewBag.Hospitals = new SelectList(await _hospitalService.GetAllHospitals(), "Id", "Name");
             return View();
         }
         public async Task<IActionResult> DoctorList(int id)
@@ -44,7 +51,17 @@ namespace hospitalAS.Web.Controllers
             var jsonString = JsonConvert.SerializeObject(await _policlinicService.GetPoliclinicsByHospitalId(id));
             return Json(jsonString);
         }
+        [HttpPost]
+        public async Task<IActionResult> TakeAnAppointment(AppointmentDto model)
+        {
+            var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
+            int userId = await _patientService.GetUserIdByIdentityNumber(identityNumber);
+            model.PatientId = userId;
+            await _appointmentService.AddAppointment(model);
+            return Json("true");
+        }
 
+      
         public IActionResult Privacy()
         {
             return View();

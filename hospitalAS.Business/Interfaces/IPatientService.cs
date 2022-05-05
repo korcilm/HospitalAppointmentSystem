@@ -4,6 +4,7 @@ using hospitalAS.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +14,6 @@ namespace hospitalAS.Business.Interfaces
     {
         Task<int> AddPatient(RegisterDto model);
         Task<Patient> PatientLogin(string identityNumber, string password);
+        Task<int> GetUserIdByIdentityNumber(string identityNumber);
     }
 }
