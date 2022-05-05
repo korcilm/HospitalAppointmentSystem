@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Dto.AppointmentDtos
 {
-    public class AppointmentDto
+    public class AddAppointmentDto
     {
         public int PatientId { get; set; }      
         public int DoctorId { get; set; }

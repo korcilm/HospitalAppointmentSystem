@@ -21,9 +21,15 @@ namespace hospitalAS.Business.Mapping.AutoMapper
             CreateMap<BloodType, BloodTypeDropdownListDto>();
             CreateMap<Policlinic, PoliclinicDropdownListDto>();
             CreateMap<Doctor, DoctorDropdownListDto>();
+            CreateMap<Appointment, ListAppointmentDto>().ForMember(x => x.DoctorName, act => act.MapFrom(src => src.Doctor.Name + " " + src.Doctor.Surname))
+                                                        .ForMember(x => x.HospitalName, act => act.MapFrom(src => src.Policlinic.Hospital.Name))
+                                                        .ForMember(x => x.PoliclinicName, act => act.MapFrom(src => src.Policlinic.Name))
+                                                        .ForMember(x => x.Date, act => act.MapFrom(src => src.Date))
+                                                        .ForMember(x => x.IsActive, act => act.MapFrom(src => src.IsActive))
+                                                        .ForMember(x => x.Id, act => act.MapFrom(src => src.Id));
             CreateMap<Hospital, HospitalDropdownListDto>();
             CreateMap<RegisterDto, Patient>();
-            CreateMap<AppointmentDto, Appointment>();
+            CreateMap<AddAppointmentDto, Appointment>();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Services
 {
-    public class AppointmentService: IAppointmentService
+    public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMapper _mapper;
@@ -21,10 +21,23 @@ namespace hospitalAS.Business.Services
             _mapper = mapper;
         }
 
-        public async Task AddAppointment(AppointmentDto model)
+        public async Task AddAppointment(AddAppointmentDto model)
         {
-            
-           await _appointmentRepository.Add(_mapper.Map<Appointment>(model));
+
+            await _appointmentRepository.Add(_mapper.Map<Appointment>(model));
+        }
+
+        public async Task DeleteAppointment(int id)
+        {
+            var appointment=await _appointmentRepository.GetEntityById(id);
+            appointment.IsActive = false;
+            await _appointmentRepository.Update(appointment);
+        }
+
+        public async Task<IList<ListAppointmentDto>> GetAllAppointmentsByUserId(int userId)
+        {
+            var appointments = await _appointmentRepository.GetAllAppointmentsByUserId(userId);
+            return _mapper.Map<IList<ListAppointmentDto>>(appointments);
         }
     }
 }

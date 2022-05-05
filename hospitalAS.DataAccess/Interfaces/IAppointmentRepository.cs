@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.DataAccess.Interfaces
 {
-    public interface IAppointmentRepository:IGenericRepository<Appointment>
+    public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
+        Task<IList<Appointment>> GetAllAppointmentsByUserId(int userId);
     }
 }

@@ -39,7 +39,8 @@ namespace hospitalAS.Web.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Hospitals = new SelectList(await _hospitalService.GetAllHospitals(), "Id", "Name");
-            return View();
+            var appointments = await _appointmentService.GetAllAppointmentsByUserId(await GetUserId());
+            return View(appointments);
         }
         public async Task<IActionResult> DoctorList(int id)
         {
@@ -52,16 +53,20 @@ namespace hospitalAS.Web.Controllers
             return Json(jsonString);
         }
         [HttpPost]
-        public async Task<IActionResult> TakeAnAppointment(AppointmentDto model)
-        {
-            var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
-            int userId = await _patientService.GetUserIdByIdentityNumber(identityNumber);
-            model.PatientId = userId;
+        public async Task<IActionResult> TakeAnAppointment(AddAppointmentDto model)
+        {            
+            model.PatientId = await GetUserId(); 
             await _appointmentService.AddAppointment(model);
             return Json("true");
         }
 
-      
+        private async Task<int> GetUserId()
+        {
+            var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
+            int userId = await _patientService.GetUserIdByIdentityNumber(identityNumber);
+            return userId;
+        }
+
         public IActionResult Privacy()
         {
             return View();

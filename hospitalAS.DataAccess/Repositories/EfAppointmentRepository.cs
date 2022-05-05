@@ -1,6 +1,7 @@
 ﻿using hospitalAS.DataAccess.Data;
 using hospitalAS.DataAccess.Interfaces;
 using hospitalAS.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace hospitalAS.DataAccess.Repositories
         public EfAppointmentRepository(hospitalASDbContext context):base(context)
         {
             _context = context;
+        }
+
+        public async Task<IList<Appointment>> GetAllAppointmentsByUserId(int userId)
+        {
+            return await _context.Appointments.Include(x=>x.Doctor).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.PatientId == userId).OrderBy(x=>x.Date).ToListAsync();
         }
     }
 }
