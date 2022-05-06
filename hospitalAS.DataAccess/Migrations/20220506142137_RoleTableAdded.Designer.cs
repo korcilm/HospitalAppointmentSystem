@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hospitalAS.DataAccess.Data;
 
 namespace hospitalAS.DataAccess.Migrations
 {
     [DbContext(typeof(hospitalASDbContext))]
-    partial class hospitalASDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506142137_RoleTableAdded")]
+    partial class RoleTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +119,7 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<int>("PoliclinicId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -166,7 +168,8 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BloodTypeId")
+                    b.Property<int?>("BloodTypeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityNumber")
@@ -184,7 +187,7 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -374,9 +377,7 @@ namespace hospitalAS.DataAccess.Migrations
 
                     b.HasOne("hospitalAS.Entities.Role", "Role")
                         .WithMany("Doctors")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Policlinic");
 
@@ -402,9 +403,7 @@ namespace hospitalAS.DataAccess.Migrations
 
                     b.HasOne("hospitalAS.Entities.Role", "Role")
                         .WithMany("Patients")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("BloodType");
 

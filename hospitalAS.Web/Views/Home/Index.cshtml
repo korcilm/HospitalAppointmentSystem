@@ -30,7 +30,7 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-                        <th scope="row">@item.Date.ToShortDateString()</th>
+                        <th scope="row">@item.Date.ToLocalTime()</th>
                         <td>@item.DoctorName</td>
                         <td>@item.PoliclinicName</td>
                         <td>@item.HospitalName</td>

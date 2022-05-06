@@ -37,6 +37,7 @@ namespace hospitalAS.Web.Controllers
                     {
                         new Claim(ClaimTypes.Name, patient.Name),
                         new Claim(ClaimTypes.Surname, patient.Surname),
+                        new Claim(ClaimTypes.Role, patient.Role.Name),
                         new Claim(ClaimTypes.NameIdentifier, patient.IdentityNumber),
                     };
 
@@ -64,7 +65,7 @@ namespace hospitalAS.Web.Controllers
                 int addedPatientId = await _patientService.AddPatient(model);
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.BloodTypes = new SelectList(await _bloodTypeService.GetAllBloodTypes(), "Id", "Name");
             return View();
         }
 

@@ -11,7 +11,7 @@ namespace hospitalAS.Dto.PatientDtos
     {
         [MaxLength(11, ErrorMessage = "Maksimum 11 karakter girmelisiniz")]
         public string IdentityNumber { get; set; }
-        [MinLength(8, ErrorMessage = "Minimum 8 karakter girmelisiniz")]
+        [MinLength(3, ErrorMessage = "Minimum 8 karakter girmelisiniz")]
         public string Password { get; set; }
     }
 }

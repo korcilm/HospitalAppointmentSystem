@@ -27,6 +27,11 @@ namespace hospitalAS.Business.Services
             return await _patientRepository.Add(_mapper.Map<Patient>(model));
         }
 
+        public async Task<UpdatePatientDto> GetPatient(int id)
+        {
+            return _mapper.Map<UpdatePatientDto>(await _patientRepository.GetEntityById(id));
+        }
+
         public async Task<int> GetUserIdByIdentityNumber(string identityNumber)
         {
             return await _patientRepository.GetUserIdByIdentityNumber(identityNumber);
@@ -35,6 +40,12 @@ namespace hospitalAS.Business.Services
         public async Task<Patient> PatientLogin(string identityNumber, string password)
         {
             return await _patientRepository.GetPatientLogin(identityNumber, password);
+        }
+
+        public async Task UpdatePatient(UpdatePatientDto model)
+        {
+            
+             await _patientRepository.Update(_mapper.Map<Patient>(model));
         }
     }
 }

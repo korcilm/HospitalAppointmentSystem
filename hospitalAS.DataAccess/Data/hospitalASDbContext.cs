@@ -23,6 +23,8 @@ namespace hospitalAS.DataAccess.Data
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestType> TestTypes { get; set; }
         public DbSet<Town> Towns { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

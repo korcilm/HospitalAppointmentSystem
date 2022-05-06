@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hospitalAS.DataAccess.Data;
 
 namespace hospitalAS.DataAccess.Migrations
 {
     [DbContext(typeof(hospitalASDbContext))]
-    partial class hospitalASDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506140028_PrescriptionTAbleAdded")]
+    partial class PrescriptionTAbleAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,25 +101,14 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PoliclinicId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -127,8 +118,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PoliclinicId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Doctors");
                 });
@@ -166,7 +155,8 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BloodTypeId")
+                    b.Property<int?>("BloodTypeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityNumber")
@@ -184,9 +174,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -194,8 +181,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BloodTypeId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Patients");
                 });
@@ -248,21 +233,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Prescriptions");
-                });
-
-            modelBuilder.Entity("hospitalAS.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Test", b =>
@@ -372,15 +342,7 @@ namespace hospitalAS.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("hospitalAS.Entities.Role", "Role")
-                        .WithMany("Doctors")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Policlinic");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
@@ -400,15 +362,7 @@ namespace hospitalAS.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("hospitalAS.Entities.Role", "Role")
-                        .WithMany("Patients")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BloodType");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
@@ -483,13 +437,6 @@ namespace hospitalAS.DataAccess.Migrations
             modelBuilder.Entity("hospitalAS.Entities.Prescription", b =>
                 {
                     b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("hospitalAS.Entities.Role", b =>
-                {
-                    b.Navigation("Doctors");
-
-                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.TestType", b =>

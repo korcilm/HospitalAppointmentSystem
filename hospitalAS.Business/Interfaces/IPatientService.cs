@@ -15,5 +15,7 @@ namespace hospitalAS.Business.Interfaces
         Task<int> AddPatient(RegisterDto model);
         Task<Patient> PatientLogin(string identityNumber, string password);
         Task<int> GetUserIdByIdentityNumber(string identityNumber);
+        Task<UpdatePatientDto> GetPatient(int id);
+        Task UpdatePatient(UpdatePatientDto model);
     }
 }

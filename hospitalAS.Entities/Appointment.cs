@@ -9,7 +9,8 @@ namespace hospitalAS.Entities
 {
     public class Appointment:IEntity
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
+        public int? PrescriptionId { get; set; }
         public int PatientId { get; set; }
         [Required(ErrorMessage = "Doktor seçiniz")]
         public int DoctorId { get; set; }
@@ -19,5 +20,6 @@ namespace hospitalAS.Entities
         public Doctor Doctor { get; set; }
         public Policlinic Policlinic { get; set; }
         public Patient Patient { get; set; }
+        public Prescription Prescription { get; set; }
     }
 }

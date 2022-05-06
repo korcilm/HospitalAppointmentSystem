@@ -29,6 +29,7 @@ namespace hospitalAS.Business.Mapping.AutoMapper
                                                         .ForMember(x => x.Id, act => act.MapFrom(src => src.Id));
             CreateMap<Hospital, HospitalDropdownListDto>();
             CreateMap<RegisterDto, Patient>();
+            CreateMap<Patient, UpdatePatientDto>().ReverseMap();
             CreateMap<AddAppointmentDto, Appointment>();
         }
     }
