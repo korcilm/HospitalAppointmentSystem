@@ -6,17 +6,14 @@
 <div class="card mt-5">
     <div class="card-header">
         Randevularım
+        <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+            Randevu Al
+        </button>
     </div>
 
     <div class="mt-4 row card-body ">
-        <div class="col-md-3">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-outline-info btn-lg px-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-                Randevu Al
-            </button>
-
-        </div>
-        <div class="col-md-9">
+       
+        <div class="col-md-12">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -32,14 +29,23 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <th scope="row">@item.Date.ToShortDateString()</th>
-                            <td>@item.DoctorName</td>
-                            <td>@item.PoliclinicName</td>
-                            <td>@item.HospitalName</td>
-                            <td>@item.IsActive</td>
+                    <tr>
+                        <th scope="row">@item.Date.ToShortDateString()</th>
+                        <td>@item.DoctorName</td>
+                        <td>@item.PoliclinicName</td>
+                        <td>@item.HospitalName</td>
+                        @if (item.IsActive == true)
+                        {
+                            <td><span class="badge bg-success">Aktif Randevu</span></td>
                             <td><a asp-action="CancelAppointment" asp-controller="Appointment" asp-route-id="@item.Id" class="btn btn-danger">İptal Et</a></td>
-                        </tr>
+                        }
+                        else
+                        {
+                            <td><span class="badge bg-danger">İptal Edildi</span></td>
+                            <td></td>
+                        }
+                        
+                    </tr>
                     }
                    
                 </tbody>
@@ -55,7 +61,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Randevu Al</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -83,7 +89,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
                 <button type="button" onclick="takeAnAppoinment()" class="btn btn-primary">Randevu Al</button>
             </div>
         </div>
