@@ -1,36 +1,62 @@
-﻿@model LoginDto
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAuth.cshtml";
 }
 
-<div id="test-form" class="white-popup-block border">
-    <div class="popup_box ">
-        <div class="popup_inner">
-            <h3>Giriş Yap</h3>
-            <form asp-action="Login" asp-controller="Auth" method="post">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <input asp-for="IdentityNumber" placeholder="Tc Kimlik No">
-                        <span asp-validation-for="IdentityNumber" class="text-danger"></span>
-                    </div>
-                    <div class="col-xl-12">
-                        <input asp-for="Password" placeholder="Şifre">
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
 
 
-                    <div class="col-xl-12">
-                        <button type="submit" class="boxed-btn3">Giriş Yap</button>
-                    </div>
-                    <div class="pb-10 pb-lg-15">
-                        <div class="text-muted font-weight-bold font-size-h4 mt-2 ml-3">
-                            Hesabın Yok mu?
-                            <a asp-action="Register" asp-controller="Auth" class="text-primary font-weight-bolder">Hesap Oluştur</a>
+
+<!-- business_expert_area_start  -->
+<div class="business_expert_area">
+    <div class="business_tabs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <ul class="nav" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                               aria-selected="true">Hasta Girişi</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                               aria-selected="false">Doktor Girişi</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="border_bottom">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div id="test-form" class="white-popup-block border">
+                        <div class="popup_box ">
+                            <div class="popup_inner">
+                                <h3> Hasta Girişi Yap</h3>
+                                <form asp-action="Login" asp-controller="Auth" asp-route-id="1" method="post">
+                                    <partial name="_LoginScreen" />
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div id="test-form" class="white-popup-block border">
+                        <div class="popup_box ">
+                            <div class="popup_inner">
+                                <h3> Doktor Girişi Yap</h3>
+                                <form asp-action="Login" asp-controller="Auth" asp-route-id="2" method="post">
+                                    <partial name="_LoginScreen" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<!-- business_expert_area_end  -->

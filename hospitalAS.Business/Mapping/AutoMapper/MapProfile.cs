@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using hospitalAS.Dto.AppointmentDtos;
 using hospitalAS.Dto.BloodTypeDtos;
+using hospitalAS.Dto.ClaimDtos;
 using hospitalAS.Dto.DoctorDtos;
 using hospitalAS.Dto.HospitalDtos;
 using hospitalAS.Dto.PatientDtos;
@@ -31,6 +32,8 @@ namespace hospitalAS.Business.Mapping.AutoMapper
             CreateMap<RegisterDto, Patient>();
             CreateMap<Patient, UpdatePatientDto>().ReverseMap();
             CreateMap<AddAppointmentDto, Appointment>();
+            CreateMap<Patient, ClaimDto>();
+            CreateMap<Doctor, ClaimDto>();
         }
     }
 }

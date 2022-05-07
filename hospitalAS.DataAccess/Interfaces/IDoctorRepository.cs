@@ -10,5 +10,6 @@ namespace hospitalAS.DataAccess.Interfaces
     public interface IDoctorRepository : IGenericRepository<Doctor>
     {
         Task<IList<Doctor>> GetDoctorsByPoliclinicId(int id);
+        Task<Doctor> GetDoctorLogin(string identityNumber, string password);
     }
 }

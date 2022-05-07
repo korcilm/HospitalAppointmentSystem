@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using hospitalAS.Business.Interfaces;
 using hospitalAS.DataAccess.Interfaces;
+using hospitalAS.Dto.ClaimDtos;
 using hospitalAS.Dto.DoctorDtos;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,15 @@ namespace hospitalAS.Business.Services
             _mapper = mapper;
         }
 
+        public async Task<ClaimDto> DoctorLogin(string identityNumber, string password)
+        {
+            var doctor = await _doctorRepository.GetDoctorLogin(identityNumber, password);
+            return _mapper.Map<ClaimDto>(doctor);
+        }
+
         public async Task<IList<DoctorDropdownListDto>> GetDoctorsByPoliclinicId(int id)
         {
-           var doctors= await _doctorRepository.GetDoctorsByPoliclinicId(id);
+            var doctors = await _doctorRepository.GetDoctorsByPoliclinicId(id);
             return _mapper.Map<IList<DoctorDropdownListDto>>(doctors);
         }
     }

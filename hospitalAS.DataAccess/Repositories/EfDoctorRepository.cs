@@ -19,6 +19,11 @@ namespace hospitalAS.DataAccess.Repositories
             _context = context;
         }
 
+        public async Task<Doctor> GetDoctorLogin(string identityNumber, string password)
+        {
+            return await _context.Doctors.Include(x => x.Role).Where(x => x.IdentityNumber == identityNumber && x.Password == password).FirstOrDefaultAsync();
+        }
+
         public async Task<IList<Doctor>> GetDoctorsByPoliclinicId(int id)
         {
             return await _context.Doctors.Where(x => x.PoliclinicId == id).ToListAsync();
