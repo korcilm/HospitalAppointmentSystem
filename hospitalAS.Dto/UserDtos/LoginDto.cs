@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hospitalAS.Dto.PatientDtos
+namespace hospitalAS.Dto.UserDtos
 {
     public class LoginDto
     {

@@ -12,7 +12,7 @@ namespace hospitalAS.Entities
         public string Name { get; set; }
         public int HospitalId { get; set; }
         public Hospital Hospital { get; set; }
-        public ICollection<Doctor> Doctors { get; set; }
+        public ICollection<User> Users { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
     }
 }

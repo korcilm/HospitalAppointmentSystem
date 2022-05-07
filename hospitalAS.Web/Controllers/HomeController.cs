@@ -20,52 +20,37 @@ namespace hospitalAS.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPoliclinicService _policlinicService;
-        private readonly IDoctorService _doctorService;
+     //   private readonly IDoctorService _doctorService;
         private readonly IHospitalService _hospitalService;
         private readonly IAppointmentService _appointmentService;
-        private readonly IPatientService _patientService;
+        private readonly IUserService _userService;
+    //    private readonly IPatientService _patientService;
 
-        public HomeController(ILogger<HomeController> logger, IPoliclinicService policlinicService, IDoctorService doctorService,
-            IHospitalService hospitalService, IAppointmentService appointmentService, IPatientService patientService)
+        public HomeController(ILogger<HomeController> logger, IPoliclinicService policlinicService, IUserService userService,
+            IHospitalService hospitalService, IAppointmentService appointmentService)
         {
             _logger = logger;
-            _doctorService = doctorService;
+            //_doctorService = doctorService;
             _policlinicService = policlinicService;
             _hospitalService = hospitalService;
             _appointmentService = appointmentService;
-            _patientService = patientService;
+            _userService=userService;
+          //  _patientService = patientService;
         }
 
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            ViewBag.Hospitals = new SelectList(await _hospitalService.GetAllHospitals(), "Id", "Name");
-            var appointments = await _appointmentService.GetAllAppointmentsByUserId(await GetUserId());
-            return View(appointments);
+            
+           return View();
         }
-        public async Task<IActionResult> DoctorList(int id)
-        {
-            var jsonString = JsonConvert.SerializeObject(await _doctorService.GetDoctorsByPoliclinicId(id));
-            return Json(jsonString);
-        }
-        public async Task<IActionResult> PoliclinicList(int id)
-        {
-            var jsonString = JsonConvert.SerializeObject(await _policlinicService.GetPoliclinicsByHospitalId(id));
-            return Json(jsonString);
-        }
-        [HttpPost]
-        public async Task<IActionResult> TakeAnAppointment(AddAppointmentDto model)
-        {            
-            model.PatientId = await GetUserId(); 
-            await _appointmentService.AddAppointment(model);
-            return Json("true");
-        }
+      
 
-        private async Task<int> GetUserId()
-        {
-            var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
-            int userId = await _patientService.GetUserIdByIdentityNumber(identityNumber);
-            return userId;
-        }
+        //private async Task<int> GetUserId()
+        //{
+        //    var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
+        //    int userId = await _user.GetUserIdByIdentityNumber(identityNumber);
+        //    return userId;
+        //}
 
         public IActionResult Privacy()
         {

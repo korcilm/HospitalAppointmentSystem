@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.ClaimDtos;
-using hospitalAS.Dto.PatientDtos;
-using hospitalAS.Entities;
-using hospitalAS.Web.Models;
+using hospitalAS.Dto.UserDtos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +16,13 @@ namespace hospitalAS.Web.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly IPatientService _patientService;
-        private readonly IDoctorService _doctorService;
+       
         private readonly IBloodTypeService _bloodTypeService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        public AuthController(IPatientService patientService, IBloodTypeService bloodTypeService, IMapper mapper, IDoctorService doctorService)
+        public AuthController(IUserService userService, IBloodTypeService bloodTypeService, IMapper mapper)
         {
-            _patientService = patientService;
-            _doctorService = doctorService;
+            _userService = userService;
             _bloodTypeService = bloodTypeService;
             _mapper = mapper;
         }
@@ -34,39 +31,23 @@ namespace hospitalAS.Web.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto model, int id)
+        public async Task<IActionResult> Login(LoginDto model)
         {
             if (ModelState.IsValid)
             {
-                if (id == 1)
+                var user = await _userService.ValidateUser(model.IdentityNumber, model.Password);
+                if (user != null)
                 {
-                    var patient = await _patientService.PatientLogin(model.IdentityNumber, model.Password);
-                    if (patient != null)
-                    {
-                        await CreateClaim(_mapper.Map<ClaimDto>(patient));
-                        return RedirectToAction("Index", "Home");
-                    }
-                    ModelState.AddModelError("Giriş yap", "Kullanıcı adı veya şifre hatalı");
+                    await CreateClaim(_mapper.Map<ClaimDto>(user));
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    var doctor = await _doctorService.DoctorLogin(model.IdentityNumber, model.Password);
-                    if (doctor != null)
-                    {
-                        await CreateClaim(doctor);
-                        return RedirectToAction("Index", "Home");
-                    }
-                    ModelState.AddModelError("Giriş yap", "Kullanıcı adı veya şifre hatalı");
-                }
-
+                ModelState.AddModelError("Giriş yap", "Kullanıcı adı veya şifre hatalı");
             }
-
             return View("Index");
         }
 
         private async Task CreateClaim(ClaimDto model)
         {
-
             List<Claim> claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, model.Name),
@@ -74,7 +55,6 @@ namespace hospitalAS.Web.Controllers
                             new Claim(ClaimTypes.Role, model.Role.Name),
                             new Claim(ClaimTypes.NameIdentifier, model.IdentityNumber),
                         };
-
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(claimsPrincipal);
@@ -90,7 +70,7 @@ namespace hospitalAS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                int addedPatientId = await _patientService.AddPatient(model);
+                int addedPatientId = await _userService.AddUser(model);
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.BloodTypes = new SelectList(await _bloodTypeService.GetAllBloodTypes(), "Id", "Name");

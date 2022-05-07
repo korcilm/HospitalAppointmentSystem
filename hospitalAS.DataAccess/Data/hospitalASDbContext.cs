@@ -14,11 +14,10 @@ namespace hospitalAS.DataAccess.Data
         {
 
         }
-        public DbSet<Patient> Patients { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Policlinic> Policlinics { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestType> TestTypes { get; set; }
@@ -27,10 +26,10 @@ namespace hospitalAS.DataAccess.Data
         public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Appointment>().HasOne(p => p.Patient)
+        {   
+            modelBuilder.Entity<Appointment>().HasOne(p => p.User)
                                               .WithMany(p => p.Appointments)
-                                              .HasForeignKey(p => p.PatientId)
+                                              .HasForeignKey(p => p.DoctorId)
                                               .OnDelete(DeleteBehavior.NoAction); 
             modelBuilder.Entity<Appointment>().HasOne(p => p.Policlinic)
                                               .WithMany(p => p.Appointments)

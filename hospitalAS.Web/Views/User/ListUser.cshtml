@@ -1,0 +1,147 @@
+﻿@model IEnumerable<ListUserDto>
+
+@{
+    ViewData["Title"] = "ListUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ListUser</h1>
+
+<p>
+    <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#userModal">
+        Yeni Kullanıcı Ekle
+    </button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>BloodTypeId</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>IdentityNumber</th>
+            <th>Password</th>
+            <th>PhoneNumber</th>
+            <th>BirthDate</th>
+            <th>Address</th>
+            <th>RoleId</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id  </td>
+                <td>@item.BloodTypeId </td>
+                <td>@item.Name  </td>
+                <td>@item.Surname  </td>
+                <td>@item.IdentityNumber  </td>
+                <td>@item.Password  </td>
+                <td>@item.PhoneNumber  </td>
+                <td>@item.BirthDate  </td>
+                <td>@item.Address  </td>
+                <td>@item.RoleId  </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade modal-md" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kullanıcı Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="col-xl-12 mt-2 row">
+                        <div class="col-xl-6">
+                            <input class="form-control" type="text" id="Name" placeholder="Ad">
+                        </div>
+                        <div class="col-xl-6 float-right">
+                            <input class="form-control" type="text" id="Surname" placeholder="Soyad">
+                        </div>
+                    </div>
+                    <div class="col-xl-12  mt-2 ">
+                        <input class="form-control" type="text" id="PhoneNumber" placeholder="Telefon Numarası">
+                    </div>
+
+                    <div class="col-xl-12  mt-2  row">
+                        <div class="col-xl-6">
+                            <label class="float-left">Kan Grubu Seçiniz</label>
+                            <select class="form-select wide" id="BloodTypeId" asp-items="@ViewBag.BloodTypes">
+                            </select>
+                        </div>
+                        <div class="col-xl-6">
+                            <label class="float-left">Doğum Tarihiniz</label>
+                            <input class="form-control" type="date" id="BirthDate" />
+                        </div>
+                    </div>
+                    <div class="col-xl-12  mt-2 ">
+                        <textarea class="form-control" id="Address" placeholder="Adres Giriniz"></textarea>
+                    </div>
+                    <div class="col-xl-12  mt-2 ">
+                        <label class="float-left">Rol Seçiniz</label>
+                        <select class="form-select wide" id="RoleId" asp-items="@ViewBag.Roles">
+                        </select>
+                    </div>
+                    <div class="col-xl-12  mt-2 ">
+                        <input class="form-control" type="text" id="IdentityNumber" placeholder="TC Kimlik No">
+                    </div>
+                    <div class="col-xl-12  mt-2 ">
+                        <input class="form-control" type="password" id="Password" placeholder="Şifre">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" onclick="addUserViaAdmin()" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+     
+        //icerden admin ile user ekleme
+        function addUserViaAdmin() {
+            var formData = {
+                name: $("#Name").val(),
+                surname: $("#Surname").val(),
+                phoneNumber: $("#PhoneNumber").val(),
+                bloodTypeId: $("#BloodTypeId").val(),
+                birthDate: $("#BirthDate").val(),
+                address: $("#Address").val(),
+                roleId: $("#RoleId").val(),
+                identityNumber: $("#IdentityNumber").val(),
+                password: $("#Password").val(),
+            };
+            $.ajax({
+                method: 'POST',
+                url: '/User/AddUserViaAdmin/',
+                data: formData
+            }).done(function (data) {
+                if (data == "true") {
+                    alertify.success("Kaydınız başarıyla oluşturuldu");
+                    $(".btn-close").trigger('click');
+                }
+                else {
+                    alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
+                }
+            });
+        }
+
+    </script>
+
+}

@@ -14,19 +14,19 @@ namespace hospitalAS.Business.DIContainer
     public static class CustomExtensions
     {
         public static void AddContainerWithDependencies(this IServiceCollection services)
-        {
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPatientRepository, EfPatientRepository>();    
+        { 
             services.AddScoped<IBloodTypeService, BloodTypeService>();
             services.AddScoped<IBloodTypeRepository, EfBloodTypeRepository>();  
-            services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<IDoctorRepository, EfDoctorRepository>(); 
             services.AddScoped<IPoliclinicService, PoliclinicService>();
             services.AddScoped<IPoliclinicRepository, EfPoliclinicRepository>();       
             services.AddScoped<IHospitalService, HospitalService>();
             services.AddScoped<IHospitalRepository, EfHospitalRepository>();        
             services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IAppointmentRepository, EfAppointmentRepository>();            
+            services.AddScoped<IAppointmentRepository, EfAppointmentRepository>();    
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, EfUserRepository>();           
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IRoleRepository, EfRoleRepository>();            
             services.AddScoped(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
 
         }

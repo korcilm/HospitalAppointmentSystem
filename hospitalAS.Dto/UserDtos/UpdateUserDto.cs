@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hospitalAS.Entities
+namespace hospitalAS.Dto.UserDtos
 {
-    public class Patient : IEntity
+    public class UpdateUserDto
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Kan grubunuzu seçiniz")]
-        public int BloodTypeId { get; set; }
+        [Required(ErrorMessage = "Kan grubu alanı boş geçilmez")]
+        public int? BloodTypeId { get; set; }
         public int RoleId { get; set; }
         [Required(ErrorMessage = "Ad alanı boş geçilmez")]
         public string Name { get; set; }
@@ -20,14 +20,13 @@ namespace hospitalAS.Entities
         [Required(ErrorMessage = "Kimlik numarası alanı boş geçilmez")]
         [MaxLength(11, ErrorMessage = "Maksimum 11 karakter girmelisiniz")]
         public string IdentityNumber { get; set; }
-        [MinLength(8, ErrorMessage = "Minimum 8 karakter girmelisiniz")]
+        [MinLength(3, ErrorMessage = "Minimum 3 karakter girmelisiniz")]
         public string Password { get; set; }
-        public DateTime BirthDate { get; set; }
+        [Required(ErrorMessage = "Telefon numarası alanı boş geçilmez")]
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Doğum günü alanı boş geçilmez")]
+        public DateTime BirthDate { get; set; }
+        [Required(ErrorMessage = "Adres alanı boş geçilmez")]
         public string Address { get; set; }
-        public ICollection<Appointment> Appointments { get; set; }
-        public BloodType BloodType { get; set; }
-        public Role Role { get; set; }
-        public ICollection<Test> Tests { get; set; }
     }
 }

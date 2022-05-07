@@ -12,14 +12,12 @@ namespace hospitalAS.Entities
         public int Id { get; set; }
         public int? PrescriptionId { get; set; }
         public int PatientId { get; set; }
-        [Required(ErrorMessage = "Doktor seçiniz")]
         public int DoctorId { get; set; }
         public int PoliclinicId { get; set; }
         public DateTime Date { get; set; }
         public bool IsActive { get; set; }
-        public Doctor Doctor { get; set; }
         public Policlinic Policlinic { get; set; }
-        public Patient Patient { get; set; }
+        public User User { get; set; }
         public Prescription Prescription { get; set; }
     }
 }

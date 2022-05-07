@@ -73,8 +73,9 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation" >
-                                        <li><a class="active text-white" asp-action="Index" asp-controller="Home">home</a></li>
-                                        <li><a class=" text-white" href="Department.html">Department</a></li>
+                                        <li><a class=" text-white" asp-action="Index" asp-controller="Home">Anasayfa</a></li>
+                                        <li><a class=" text-white" asp-action="Index" asp-controller="Appointment">Randevularım</a></li>
+                                        <li><a class=" text-white" asp-action="PatientList" asp-controller="Appointment">Hastalarım</a></li>
                                         <li>
                                             <a class=" text-white" href="#">blog <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
@@ -88,7 +89,8 @@
                                             {
                                                 <a class=" text-white" href="#">Merhaba @User.Identity.Name <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a asp-action="Index" asp-controller="Patient">Profil</a></li>
+                                                    <li><a asp-action="Index" asp-controller="User">Profil</a></li>
+                                                    <li><a asp-action="ListUser" asp-controller="User">Kullanıcılar</a></li>
                                                     <li><a asp-action="Logout" asp-controller="Auth">Çıkış Yap</a></li>
                                                 </ul>
                                             }

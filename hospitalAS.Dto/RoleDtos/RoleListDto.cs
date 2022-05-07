@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hospitalAS.Dto.DoctorDtos
+namespace hospitalAS.Dto.RoleDtos
 {
-    public class DoctorDropdownListDto
+    public class RoleListDto
     {
-        public int Id { get; set; }       
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
     }
 }

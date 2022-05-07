@@ -10,7 +10,7 @@ using hospitalAS.DataAccess.Data;
 namespace hospitalAS.DataAccess.Migrations
 {
     [DbContext(typeof(hospitalASDbContext))]
-    [Migration("20220503213749_InitialCreate")]
+    [Migration("20220507113538_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,13 +43,18 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<int>("PoliclinicId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PrescriptionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("PatientId");
-
                     b.HasIndex("PoliclinicId");
+
+                    b.HasIndex("PrescriptionId")
+                        .IsUnique()
+                        .HasFilter("[PrescriptionId] IS NOT NULL");
 
                     b.ToTable("Appointments");
                 });
@@ -84,37 +89,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("hospitalAS.Entities.Doctor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PoliclinicId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PoliclinicId");
-
-                    b.ToTable("Doctors");
-                });
-
             modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
                 {
                     b.Property<int>("Id")
@@ -133,49 +107,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.HasIndex("TownId");
 
                     b.ToTable("Hospital");
-                });
-
-            modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("BloodTypeId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("IdentityNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BloodTypeId");
-
-                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
@@ -198,6 +129,51 @@ namespace hospitalAS.DataAccess.Migrations
                     b.ToTable("Policlinics");
                 });
 
+            modelBuilder.Entity("hospitalAS.Entities.Prescription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Medicament")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MedicamentCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Period")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Usage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsingCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Prescriptions");
+                });
+
+            modelBuilder.Entity("hospitalAS.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("hospitalAS.Entities.Test", b =>
                 {
                     b.Property<int>("Id")
@@ -208,9 +184,6 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,11 +193,14 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Property<int?>("TestTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId");
-
                     b.HasIndex("TestTypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tests");
                 });
@@ -264,42 +240,77 @@ namespace hospitalAS.DataAccess.Migrations
                     b.ToTable("Towns");
                 });
 
-            modelBuilder.Entity("hospitalAS.Entities.Appointment", b =>
+            modelBuilder.Entity("hospitalAS.Entities.User", b =>
                 {
-                    b.HasOne("hospitalAS.Entities.Doctor", "Doctor")
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasOne("hospitalAS.Entities.Patient", "Patient")
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasOne("hospitalAS.Entities.Policlinic", "Policlinic")
-                        .WithMany("Appointments")
-                        .HasForeignKey("PoliclinicId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
 
-                    b.Navigation("Doctor");
+                    b.Property<int>("BloodTypeId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Patient");
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("Policlinic");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PoliclinicId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BloodTypeId");
+
+                    b.HasIndex("PoliclinicId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("hospitalAS.Entities.Doctor", b =>
+            modelBuilder.Entity("hospitalAS.Entities.Appointment", b =>
                 {
-                    b.HasOne("hospitalAS.Entities.Policlinic", "Policlinic")
-                        .WithMany("Doctors")
-                        .HasForeignKey("PoliclinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("hospitalAS.Entities.User", "User")
+                        .WithMany("Appointments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("hospitalAS.Entities.Policlinic", "Policlinic")
+                        .WithMany("Appointments")
+                        .HasForeignKey("PoliclinicId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("hospitalAS.Entities.Prescription", "Prescription")
+                        .WithOne("Appointment")
+                        .HasForeignKey("hospitalAS.Entities.Appointment", "PrescriptionId");
+
                     b.Navigation("Policlinic");
+
+                    b.Navigation("Prescription");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
@@ -309,17 +320,6 @@ namespace hospitalAS.DataAccess.Migrations
                         .HasForeignKey("TownId");
 
                     b.Navigation("Town");
-                });
-
-            modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
-                {
-                    b.HasOne("hospitalAS.Entities.BloodType", "BloodType")
-                        .WithMany("Patients")
-                        .HasForeignKey("BloodTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BloodType");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
@@ -335,17 +335,17 @@ namespace hospitalAS.DataAccess.Migrations
 
             modelBuilder.Entity("hospitalAS.Entities.Test", b =>
                 {
-                    b.HasOne("hospitalAS.Entities.Patient", "Patient")
-                        .WithMany("Tests")
-                        .HasForeignKey("PatientId");
-
                     b.HasOne("hospitalAS.Entities.TestType", "TestType")
                         .WithMany("Tests")
                         .HasForeignKey("TestTypeId");
 
-                    b.Navigation("Patient");
+                    b.HasOne("hospitalAS.Entities.User", "User")
+                        .WithMany("Tests")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("TestType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Town", b =>
@@ -357,9 +357,36 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("hospitalAS.Entities.User", b =>
+                {
+                    b.HasOne("hospitalAS.Entities.BloodType", "BloodType")
+                        .WithMany("Users")
+                        .HasForeignKey("BloodTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("hospitalAS.Entities.Policlinic", "Policlinic")
+                        .WithMany("Users")
+                        .HasForeignKey("PoliclinicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("hospitalAS.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BloodType");
+
+                    b.Navigation("Policlinic");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("hospitalAS.Entities.BloodType", b =>
                 {
-                    b.Navigation("Patients");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.City", b =>
@@ -367,28 +394,26 @@ namespace hospitalAS.DataAccess.Migrations
                     b.Navigation("Towns");
                 });
 
-            modelBuilder.Entity("hospitalAS.Entities.Doctor", b =>
-                {
-                    b.Navigation("Appointments");
-                });
-
             modelBuilder.Entity("hospitalAS.Entities.Hospital", b =>
                 {
                     b.Navigation("Policlinics");
-                });
-
-            modelBuilder.Entity("hospitalAS.Entities.Patient", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("Tests");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.Policlinic", b =>
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Doctors");
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("hospitalAS.Entities.Prescription", b =>
+                {
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("hospitalAS.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("hospitalAS.Entities.TestType", b =>
@@ -399,6 +424,13 @@ namespace hospitalAS.DataAccess.Migrations
             modelBuilder.Entity("hospitalAS.Entities.Town", b =>
                 {
                     b.Navigation("Hospitals");
+                });
+
+            modelBuilder.Entity("hospitalAS.Entities.User", b =>
+                {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }

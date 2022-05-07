@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.DataAccess.Interfaces
 {
-    public interface IPatientRepository : IGenericRepository<Patient>
+    public interface IUserRepository : IGenericRepository<User>
     {
-        Task<Patient> GetPatientLogin(string identityNumber, string password);
+        Task<User> ValidateUser(string identityNumber, string password);
+        Task<IList<User>> GetDoctorsByPoliclinicId(int id);
         Task<int> GetUserIdByIdentityNumber(string identityNumber);
     }
 }

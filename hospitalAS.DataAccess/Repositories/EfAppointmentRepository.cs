@@ -20,7 +20,11 @@ namespace hospitalAS.DataAccess.Repositories
 
         public async Task<IList<Appointment>> GetAllAppointmentsByUserId(int userId)
         {
-            return await _context.Appointments.Include(x=>x.Doctor).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.PatientId == userId).OrderBy(x=>x.Date).ToListAsync();
+           return await _context.Appointments.Include(x=>x.User).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.PatientId == userId).OrderBy(x=>x.Date).ToListAsync();
+        }  
+        public async Task<IList<Appointment>> GetAllAppointmentsByDoctorId(int userId)
+        {
+           return await _context.Appointments.Include(x=>x.User).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.DoctorId == userId).OrderBy(x=>x.Date).ToListAsync();
         }
     }
 }

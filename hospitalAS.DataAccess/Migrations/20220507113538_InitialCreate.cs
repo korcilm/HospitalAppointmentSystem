@@ -34,6 +34,37 @@ namespace hospitalAS.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Prescriptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Medicament = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Period = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Usage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsingCount = table.Column<int>(type: "int", nullable: false),
+                    MedicamentCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prescriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TestTypes",
                 columns: table => new
                 {
@@ -44,32 +75,6 @@ namespace hospitalAS.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TestTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Patients",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BloodTypeId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdentityNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Patients", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Patients_BloodTypes_BloodTypeId",
-                        column: x => x.BloodTypeId,
-                        principalTable: "BloodTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,35 +93,6 @@ namespace hospitalAS.DataAccess.Migrations
                         name: "FK_Towns_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<int>(type: "int", nullable: true),
-                    TestTypeId = table.Column<int>(type: "int", nullable: true),
-                    TestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tests_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tests_TestTypes_TestTypeId",
-                        column: x => x.TestTypeId,
-                        principalTable: "TestTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -162,24 +138,41 @@ namespace hospitalAS.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    BloodTypeId = table.Column<int>(type: "int", nullable: false),
                     PoliclinicId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctors_Policlinics_PoliclinicId",
+                        name: "FK_Users_BloodTypes_BloodTypeId",
+                        column: x => x.BloodTypeId,
+                        principalTable: "BloodTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_Policlinics_PoliclinicId",
                         column: x => x.PoliclinicId,
                         principalTable: "Policlinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -190,6 +183,7 @@ namespace hospitalAS.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PrescriptionId = table.Column<int>(type: "int", nullable: true),
                     PatientId = table.Column<int>(type: "int", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     PoliclinicId = table.Column<int>(type: "int", nullable: false),
@@ -200,21 +194,50 @@ namespace hospitalAS.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Appointments_Policlinics_PoliclinicId",
                         column: x => x.PoliclinicId,
                         principalTable: "Policlinics",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Prescriptions_PrescriptionId",
+                        column: x => x.PrescriptionId,
+                        principalTable: "Prescriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Users_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    TestTypeId = table.Column<int>(type: "int", nullable: true),
+                    TestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tests_TestTypes_TestTypeId",
+                        column: x => x.TestTypeId,
+                        principalTable: "TestTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tests_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -223,19 +246,16 @@ namespace hospitalAS.DataAccess.Migrations
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_PatientId",
-                table: "Appointments",
-                column: "PatientId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Appointments_PoliclinicId",
                 table: "Appointments",
                 column: "PoliclinicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_PoliclinicId",
-                table: "Doctors",
-                column: "PoliclinicId");
+                name: "IX_Appointments_PrescriptionId",
+                table: "Appointments",
+                column: "PrescriptionId",
+                unique: true,
+                filter: "[PrescriptionId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hospital_TownId",
@@ -243,19 +263,9 @@ namespace hospitalAS.DataAccess.Migrations
                 column: "TownId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patients_BloodTypeId",
-                table: "Patients",
-                column: "BloodTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Policlinics_HospitalId",
                 table: "Policlinics",
                 column: "HospitalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tests_PatientId",
-                table: "Tests",
-                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tests_TestTypeId",
@@ -263,9 +273,29 @@ namespace hospitalAS.DataAccess.Migrations
                 column: "TestTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tests_UserId",
+                table: "Tests",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Towns_CityId",
                 table: "Towns",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_BloodTypeId",
+                table: "Users",
+                column: "BloodTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_PoliclinicId",
+                table: "Users",
+                column: "PoliclinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -277,19 +307,22 @@ namespace hospitalAS.DataAccess.Migrations
                 name: "Tests");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
-
-            migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Prescriptions");
 
             migrationBuilder.DropTable(
                 name: "TestTypes");
 
             migrationBuilder.DropTable(
-                name: "Policlinics");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "BloodTypes");
+
+            migrationBuilder.DropTable(
+                name: "Policlinics");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Hospital");

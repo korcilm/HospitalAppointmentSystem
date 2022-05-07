@@ -11,6 +11,7 @@ namespace hospitalAS.Business.Interfaces
     {
         Task AddAppointment(AddAppointmentDto model);
         Task<IList<ListAppointmentDto>>  GetAllAppointmentsByUserId(int userId);
+        Task<IList<ListAppointmentDto>>  GetAllAppointmentsByDoctorId(int userId);
         Task DeleteAppointment(int id);
     }
 }

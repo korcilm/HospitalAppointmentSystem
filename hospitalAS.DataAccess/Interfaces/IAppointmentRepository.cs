@@ -10,5 +10,6 @@ namespace hospitalAS.DataAccess.Interfaces
     public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
         Task<IList<Appointment>> GetAllAppointmentsByUserId(int userId);
+        Task<IList<Appointment>> GetAllAppointmentsByDoctorId(int userId);
     }
 }
