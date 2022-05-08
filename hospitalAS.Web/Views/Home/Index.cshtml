@@ -3,3 +3,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1 class="text-center mt-5">Hastane Randevu Sistemine Hoşgeldiniz </h1>
+<div class="col-md-12 flex">
+    <div class="d-flex justify-content-center">
+        @if (User.IsInRole("Patient") && User.Identity.IsAuthenticated)
+        {
+            <a asp-action="Index" asp-controller="Appointment" class="btn btn-lg btn-outline-warning p-5 mx-1">Randevu Al</a>
+            <a asp-action="OutOfDateAppointment" asp-controller="Appointment" class="btn btn-lg btn-outline-info p-5  mx-1">Randevu Geçmişi</a>
+        }
+        @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+        {
+            <a asp-action="ListUser" asp-controller="User" class="btn btn-lg btn-outline-danger p-5  mx-1">Kullanıcı Listesi</a>
+            <a asp-action="ListUser" asp-controller="User" class="btn btn-lg btn-outline-success p-5  mx-1">Kullanıcı Ekle</a>
+        }
+        @if (User.IsInRole("Doctor") && User.Identity.IsAuthenticated)
+        {
+            <a asp-action="PatientList" asp-controller="Appointment" class="btn btn-lg btn-outline-secondary p-5  mx-1">Hasta Listesi</a>
+        }
+    </div>
+</div>
+

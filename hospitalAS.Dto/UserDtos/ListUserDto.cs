@@ -1,4 +1,5 @@
-﻿using System;
+﻿using hospitalAS.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,7 @@ namespace hospitalAS.Dto.UserDtos
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
         public int RoleId { get; set; }
+        public Role Role { get; set; }
+        public BloodType BloodType { get; set; }
     }
 }

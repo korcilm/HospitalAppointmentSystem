@@ -19,39 +19,16 @@ namespace hospitalAS.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IPoliclinicService _policlinicService;
-     //   private readonly IDoctorService _doctorService;
-        private readonly IHospitalService _hospitalService;
-        private readonly IAppointmentService _appointmentService;
-        private readonly IUserService _userService;
-    //    private readonly IPatientService _patientService;
-
-        public HomeController(ILogger<HomeController> logger, IPoliclinicService policlinicService, IUserService userService,
-            IHospitalService hospitalService, IAppointmentService appointmentService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            //_doctorService = doctorService;
-            _policlinicService = policlinicService;
-            _hospitalService = hospitalService;
-            _appointmentService = appointmentService;
-            _userService=userService;
-          //  _patientService = patientService;
         }
 
-        public  IActionResult Index()
+        public IActionResult Index()
         {
-            
-           return View();
+
+            return View();
         }
-      
-
-        //private async Task<int> GetUserId()
-        //{
-        //    var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;
-        //    int userId = await _user.GetUserIdByIdentityNumber(identityNumber);
-        //    return userId;
-        //}
-
         public IActionResult Privacy()
         {
             return View();

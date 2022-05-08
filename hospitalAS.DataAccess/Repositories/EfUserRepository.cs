@@ -34,7 +34,7 @@ namespace hospitalAS.DataAccess.Repositories
 
         public async Task<IList<User>> GetAllUser()
         {
-            return await _context.Users.Where(x => x.IsActive == true).ToListAsync();             
+            return await _context.Users.Include(x=>x.Role).Include(x=>x.BloodType).Where(x => x.IsActive == true).ToListAsync();             
         }
     }
 }
