@@ -59,6 +59,11 @@ namespace hospitalAS.Web.Controllers
         {
             var appointments = await _appointmentService.GetAllAppointmentsByDoctorId(await GetUserId());
             return View(appointments);
+        } 
+        public async Task<IActionResult> OutOfDateAppointment()
+        {
+            var appointments = await _appointmentService.GetOutOfDateAppointmentByUserId(await GetUserId());
+            return View(appointments);
         }
         public async Task<IActionResult> CancelAppointment(int id)
         {

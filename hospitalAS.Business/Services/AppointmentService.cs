@@ -45,5 +45,11 @@ namespace hospitalAS.Business.Services
             var appointments = await _appointmentRepository.GetAllAppointmentsByUserId(userId);
             return _mapper.Map<IList<ListAppointmentDto>>(appointments);
         }
+
+        public async Task<IList<ListAppointmentDto>> GetOutOfDateAppointmentByUserId(int userId)
+        {
+            var appointments = await _appointmentRepository.GetOutOfDateAppointmentByUserId(userId);
+            return _mapper.Map<IList<ListAppointmentDto>>(appointments);
+        }
     }
 }

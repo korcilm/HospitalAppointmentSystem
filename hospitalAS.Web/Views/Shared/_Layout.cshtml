@@ -74,13 +74,13 @@
                                 <nav>
                                     <ul id="navigation" >
                                         <li><a class=" text-white" asp-action="Index" asp-controller="Home">Anasayfa</a></li>
-                                        <li><a class=" text-white" asp-action="Index" asp-controller="Appointment">Randevularım</a></li>
                                         <li><a class=" text-white" asp-action="PatientList" asp-controller="Appointment">Hastalarım</a></li>
                                         <li>
-                                            <a class=" text-white" href="#">blog <i class="ti-angle-down"></i></a>
+                                            <a class=" text-white" href="#">Randevu <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
-                                                <li><a href="blog.html">blog</a></li>
-                                                <li><a href="single-blog.html">single-blog</a></li>
+
+                                                <li><a asp-action="Index" asp-controller="Appointment">Aktif Randevular</a></li>
+                                                <li><a asp-action="OutOfDateAppointment" asp-controller="Appointment">Geçmiş Randevular</a></li>
                                             </ul>
                                         </li>
                                         <li><a class=" text-white" href="Doctors.html">Doctors</a></li>

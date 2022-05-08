@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ListAppointmentDto>
+@{
+    ViewData["Title"] = "OutOfDateAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-5">
+    <div class="card-header">
+        Randevularım
+        <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+            Randevu Al
+        </button>
+    </div>
+
+    <div class="mt-4 row card-body ">
+
+        <div class="col-md-12">
+            @if (Model != null)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tarih</th>
+                            <th scope="col">Doktor</th>
+                            <th scope="col">Poliklinik</th>
+                            <th scope="col">Hastane</th>
+                            <th scope="col">Reçete</th>
+                            <th scope="col">Aktif randevu mu?</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.Date.ToLocalTime()</th>
+                                <td>@item.UserName</td>
+                                <td>@item.PoliclinicName</td>
+                                <td>@item.HospitalName</td>
+                                <td><a asp-action="Index" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-info">Reçete</a></td>
+                                @if (item.IsActive == true)
+                                {
+                                    <td><span class="badge bg-success">Aktif Randevu</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="badge bg-danger">İptal Edildi</span></td>
+                                }
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Geçmiş randevunuz bulunmamaktadır</p>
+            }
+        </div>
+    </div>
+
+</div>

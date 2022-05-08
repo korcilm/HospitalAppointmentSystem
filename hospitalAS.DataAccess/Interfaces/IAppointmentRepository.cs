@@ -11,5 +11,6 @@ namespace hospitalAS.DataAccess.Interfaces
     {
         Task<IList<Appointment>> GetAllAppointmentsByUserId(int userId);
         Task<IList<Appointment>> GetAllAppointmentsByDoctorId(int userId);
+        Task<IList<Appointment>>  GetOutOfDateAppointmentByUserId(int userId);
     }
 }
