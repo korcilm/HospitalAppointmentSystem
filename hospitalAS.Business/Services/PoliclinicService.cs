@@ -19,13 +19,6 @@ namespace hospitalAS.Business.Services
             _policlinicRepository = policlinicRepository;
             _mapper = mapper;
         }
-
-        //public async Task<IList<PoliclinicDropdownListDto>> GetAllPoliclinics()
-        //{
-        //    var policlinics = await _policlinicRepository.GetAllEntities();
-        //    return _mapper.Map<IList<PoliclinicDropdownListDto>>(policlinics);
-        //}
-
         public async Task<IList<PoliclinicDropdownListDto>> GetPoliclinicsByHospitalId(int id)
         {
             var policlinics = await _policlinicRepository.GetPoliclinicsByHospitalId(id);

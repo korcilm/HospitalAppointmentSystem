@@ -42,7 +42,6 @@ namespace hospitalAS.DataAccess.Repositories
                     User =I.user,                 
                     
                 }).OrderBy(x => x.Date).ToListAsync();
-            //return await _context.Appointments.Join(x=>x).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.DoctorId == userId && x.Date > DateTime.Now).OrderBy(x=>x.Date).ToListAsync();
         }
 
         public async Task<IList<Appointment>> GetOutOfDateAppointmentByUserId(int userId)
