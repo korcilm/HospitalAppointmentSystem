@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.UserDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Web.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -21,10 +23,18 @@ namespace hospitalAS.Web.Controllers
             _bloodTypeService = bloodTypeService;
             _roleService = roleService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             ViewBag.BloodTypes = new SelectList(await _bloodTypeService.GetAllBloodTypes(), "Id", "Name");
-            var patient = await _userService.GetUser(await GetUserId());
+            var patient = new UpdateUserDto();
+            if (id > 0)
+            {
+                patient = await _userService.GetUser(id);
+            }
+            else
+            {
+                patient = await _userService.GetUser(await GetUserId());
+            }
             return View(patient);
         }
 
@@ -32,7 +42,7 @@ namespace hospitalAS.Web.Controllers
         public async Task<IActionResult> Index(UpdateUserDto model)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 await _userService.UpdateUser(model);
                 return RedirectToAction("Index");
             }
@@ -40,6 +50,7 @@ namespace hospitalAS.Web.Controllers
             return View();
 
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListUser()
         {
             ViewBag.BloodTypes = new SelectList(await _bloodTypeService.GetAllBloodTypes(), "Id", "Name");
@@ -47,6 +58,7 @@ namespace hospitalAS.Web.Controllers
             var users = await _userService.GetAllUser();
             return View(users);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddUserViaAdmin(RegisterDto model)
         {
@@ -55,7 +67,15 @@ namespace hospitalAS.Web.Controllers
             var users = await _userService.AddUser(model);
             return Json("true");
         }
-      
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user= await _userService.GetUser(id);
+            user.IsActive = false;
+            await _userService.UpdateUser(user);
+            return RedirectToAction("ListUser");
+        }
+
         private async Task<int> GetUserId()
         {
             var identityNumber = User.Claims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier).Value;

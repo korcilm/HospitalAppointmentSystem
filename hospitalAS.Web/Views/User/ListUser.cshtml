@@ -5,53 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ListUser</h1>
+<div class="card mt-5">
+    <div class="card-header">
+        Randevularım
+        <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#userModal">
+            Yeni Kullanıcı Ekle
+        </button>
+    </div>
 
-<p>
-    <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#userModal">
-        Yeni Kullanıcı Ekle
-    </button>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>BloodTypeId</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>IdentityNumber</th>
-            <th>Password</th>
-            <th>PhoneNumber</th>
-            <th>BirthDate</th>
-            <th>Address</th>
-            <th>RoleId</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id  </td>
-                <td>@item.BloodTypeId </td>
-                <td>@item.Name  </td>
-                <td>@item.Surname  </td>
-                <td>@item.IdentityNumber  </td>
-                <td>@item.Password  </td>
-                <td>@item.PhoneNumber  </td>
-                <td>@item.BirthDate  </td>
-                <td>@item.Address  </td>
-                <td>@item.RoleId  </td>
+    <div class="mt-4 row card-body ">
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Kan Grubu</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Kimlik Numarası</th>
+                    <th>Şifre</th>
+                    <th>Telefon Numarası</th>
+                    <th>Doğum Tarihi</th>
+                    <th>Adres</th>
+                    <th>Rol</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id  </td>
+                        <td>@item.BloodTypeId </td>
+                        <td>@item.Name  </td>
+                        <td>@item.Surname  </td>
+                        <td>@item.IdentityNumber  </td>
+                        <td>@item.Password  </td>
+                        <td>@item.PhoneNumber  </td>
+                        <td>@item.BirthDate  </td>
+                        <td>@item.Address  </td>
+                        <td>@item.RoleId  </td>
+
+                        <td>
+                            <a asp-action="Index" asp-controller="User" asp-route-id="@item.Id" class="btn btn-outline-warning">Düzenle</a>
+                            <a asp-action="DeleteUser" asp-controller="User" asp-route-id="@item.Id" class="btn btn-outline-danger">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
 
 <!-- Modal -->
 <div class="modal fade modal-md" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -113,7 +121,7 @@
 
 @section Scripts{
     <script>
-     
+
         //icerden admin ile user ekleme
         function addUserViaAdmin() {
             var formData = {

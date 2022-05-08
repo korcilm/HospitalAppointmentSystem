@@ -53,8 +53,9 @@ namespace hospitalAS.Business.Services
 
         public async Task<IList<ListUserDto>> GetAllUser()
         {
-            var users = await _userRepository.GetAllEntities();
+            var users = await _userRepository.GetAllUser();
             return _mapper.Map<IList<ListUserDto>>(users);
         }
+
     }
 }

@@ -12,5 +12,6 @@ namespace hospitalAS.DataAccess.Interfaces
         Task<User> ValidateUser(string identityNumber, string password);
         Task<IList<User>> GetDoctorsByPoliclinicId(int id);
         Task<int> GetUserIdByIdentityNumber(string identityNumber);
+        Task<IList<User>> GetAllUser();
     }
 }

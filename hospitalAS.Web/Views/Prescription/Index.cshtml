@@ -7,7 +7,10 @@
 <div class="card mt-5">
     <div class="card-header">
         Reçete
-        <a asp-action="AddPrescription" asp-route-id="@ViewBag.AppointmentId" class="btn btn-outline-info btn-lg px-3 float-end"> İlaç Yaz </a>
+        @if ((User.IsInRole("Admin") || User.IsInRole("Doctor")) && User.Identity.IsAuthenticated)
+        {
+            <a asp-action="AddPrescription" asp-route-id="@ViewBag.AppointmentId" class="btn btn-outline-info btn-lg px-3 float-end"> İlaç Yaz </a>
+        }
     </div>
 
     <div class="mt-4 row card-body ">
@@ -24,13 +27,13 @@
                             <th scope="col">Kullanım Şekli</th>
                             <th scope="col">Kullanım Sayısı</th>
                             <th scope="col">İlaç Adedi</th>
-                            <th scope="col">İşlemler</th>
-
+                            @if ((User.IsInRole("Admin") || User.IsInRole("Doctor")) && User.Identity.IsAuthenticated)
+                            {
+                                <th scope="col">İşlemler</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
-
-
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -40,7 +43,11 @@
                                 <td>@item.Usage</td>
                                 <td>@item.UsingCount</td>
                                 <td>@item.MedicamentCount</td>
-                                <td><a asp-action="CancelAppointment" asp-controller="Appointment" asp-route-id="@item.Id" class="btn btn-danger">Sil</a></td>
+                                <td>
+                                    @if ((User.IsInRole("Admin") || User.IsInRole("Doctor")) && User.Identity.IsAuthenticated)
+                                    {<a asp-action="DeletePrescription" asp-controller="Prescription" asp-route-id="@item.Id" asp-route-appointmentId="@ViewBag.AppointmentId" class="btn btn-danger">Sil</a>
+                                    }
+                                </td>
                             </tr>
                         }
 

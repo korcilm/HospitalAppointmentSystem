@@ -30,7 +30,7 @@ namespace hospitalAS.Web
         {
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("db");
-            services.AddDbContext<hospitalASDbContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddDbContext<hospitalASDbContext>(opt => opt.UseSqlServer(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
             services.AddAutoMapper(typeof(MapProfile));
             services.AddContainerWithDependencies();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

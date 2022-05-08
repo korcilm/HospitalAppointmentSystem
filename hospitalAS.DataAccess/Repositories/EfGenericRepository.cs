@@ -24,14 +24,22 @@ namespace hospitalAS.DataAccess.Repositories
             return entity.Id;
         }
 
+        public async Task Delete(int id)
+        {
+
+            var temp =await _context.Set<T>().FindAsync(id);
+            _context.Set<T>().Remove(temp);
+            _context.SaveChanges();
+        }
+
         public async Task<IList<T>> GetAllEntities()
         {
-           return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().ToListAsync();
         }
 
         public async Task<T> GetEntityById(int id)
         {
-           return await _context.Set<T>().FindAsync(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
         public async Task<bool> IsExists(int id)

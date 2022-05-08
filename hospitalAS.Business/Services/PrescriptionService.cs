@@ -25,6 +25,11 @@ namespace hospitalAS.Business.Services
             await _prescriptionRepository.Add(_mapper.Map<Prescription>(model));
         }
 
+        public async Task DeletePrescription(int id)
+        {
+            await _prescriptionRepository.Delete(id);
+        }
+
         public async Task<IList<ListPrescriptionDto>> GetAllPrescriptionByAppointmentId(int id)
         {
             var prescriptions = await _prescriptionRepository.GetAllPrescriptionByAppointmentId(id);

@@ -14,6 +14,7 @@ namespace hospitalAS.DataAccess.Interfaces
         Task<int> Add(T entity);
         Task<int> Update(T entity);
         Task<bool> IsExists(int id);
+        Task Delete(int id);
 
     }
 }

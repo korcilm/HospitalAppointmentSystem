@@ -11,5 +11,6 @@ namespace hospitalAS.Business.Interfaces
     {
         Task AddPresscription(AddPrescriptionDto model);
         Task<IList<ListPrescriptionDto>> GetAllPrescriptionByAppointmentId(int id);
+        Task DeletePrescription(int id);
     }
 }

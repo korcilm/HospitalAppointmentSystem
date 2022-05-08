@@ -24,7 +24,7 @@ namespace hospitalAS.DataAccess.Repositories
         }  
         public async Task<IList<Appointment>> GetAllAppointmentsByDoctorId(int userId)
         {
-           return await _context.Appointments.Include(x=>x.User).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.DoctorId == userId).OrderBy(x=>x.Date).ToListAsync();
+           return await _context.Appointments.Include(x=>x.User).Include(x=>x.Policlinic).ThenInclude(x=>x.Hospital).Where(x => x.DoctorId == userId && x.Date > DateTime.Now).OrderBy(x=>x.Date).ToListAsync();
         }
 
         public async Task<IList<Appointment>> GetOutOfDateAppointmentByUserId(int userId)

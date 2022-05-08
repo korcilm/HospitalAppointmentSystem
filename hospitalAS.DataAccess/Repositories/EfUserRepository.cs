@@ -31,5 +31,10 @@ namespace hospitalAS.DataAccess.Repositories
         {
             return await _context.Users.Where(x => x.PoliclinicId == id).ToListAsync();
         }
+
+        public async Task<IList<User>> GetAllUser()
+        {
+            return await _context.Users.Where(x => x.IsActive == true).ToListAsync();             
+        }
     }
 }

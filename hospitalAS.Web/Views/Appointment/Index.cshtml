@@ -6,9 +6,12 @@
 <div class="card mt-5">
     <div class="card-header">
         Randevularım
-        <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#appointmentModal">
-            Randevu Al
-        </button>
+        @if (User.IsInRole("Patient") && User.Identity.IsAuthenticated)
+        {
+            <button type="button" class="btn btn-outline-info btn-lg px-3 float-end" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+                Randevu Al
+            </button>
+        }
     </div>
 
     <div class="mt-4 row card-body ">
@@ -43,7 +46,11 @@
                                 @if (item.IsActive == true)
                                 {
                                     <td><span class="badge bg-success">Aktif Randevu</span></td>
-                                    <td><a asp-action="CancelAppointment" asp-controller="Appointment" asp-route-id="@item.Id" class="btn btn-danger">İptal Et</a></td>
+                                    <td>
+                                        @if (User.IsInRole("Patient") && User.Identity.IsAuthenticated)
+                                        {<a asp-action="CancelAppointment" asp-controller="Appointment" asp-route-id="@item.Id" class="btn btn-danger">İptal Et</a>
+                                        }
+                                    </td>
                                 }
                                 else
                                 {

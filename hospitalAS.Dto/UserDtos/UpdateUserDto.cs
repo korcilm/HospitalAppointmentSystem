@@ -12,6 +12,7 @@ namespace hospitalAS.Dto.UserDtos
         public int Id { get; set; }
         [Required(ErrorMessage = "Kan grubu alanı boş geçilmez")]
         public int? BloodTypeId { get; set; }
+        public int? PoliclinicId { get; set; }
         public int RoleId { get; set; }
         [Required(ErrorMessage = "Ad alanı boş geçilmez")]
         public string Name { get; set; }
@@ -28,5 +29,6 @@ namespace hospitalAS.Dto.UserDtos
         public DateTime BirthDate { get; set; }
         [Required(ErrorMessage = "Adres alanı boş geçilmez")]
         public string Address { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

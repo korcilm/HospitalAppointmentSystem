@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.AppointmentDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Web.Controllers
 {
-    
+    [Authorize]
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
@@ -31,23 +32,26 @@ namespace hospitalAS.Web.Controllers
             int userId = await _userService.GetUserIdByIdentityNumber(identityNumber);
             return userId;
         }
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Hospitals = new SelectList(await _hospitalService.GetAllHospitals(), "Id", "Name");
             var appointments = await _appointmentService.GetAllAppointmentsByUserId(await GetUserId());
             return View(appointments);
         }
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> PoliclinicList(int id)
         {
             var jsonString = JsonConvert.SerializeObject(await _policlinicService.GetPoliclinicsByHospitalId(id));
             return Json(jsonString);
         }
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> DoctorList(int id)
         {
             var jsonString = JsonConvert.SerializeObject(await _userService.GetDoctorsByPoliclinicId(id));
             return Json(jsonString);
         }
-
+        [Authorize(Roles = "Patient")]
         [HttpPost]
         public async Task<IActionResult> TakeAnAppointment(AddAppointmentDto model)
         {
@@ -55,16 +59,19 @@ namespace hospitalAS.Web.Controllers
             await _appointmentService.AddAppointment(model);
             return Json("true");
         }
+        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> PatientList()
         {
             var appointments = await _appointmentService.GetAllAppointmentsByDoctorId(await GetUserId());
             return View(appointments);
-        } 
+        }
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> OutOfDateAppointment()
         {
             var appointments = await _appointmentService.GetOutOfDateAppointmentByUserId(await GetUserId());
             return View(appointments);
         }
+        [Authorize(Roles = "Patient")]
         public async Task<IActionResult> CancelAppointment(int id)
         {
             await _appointmentService.DeleteAppointment(id);
