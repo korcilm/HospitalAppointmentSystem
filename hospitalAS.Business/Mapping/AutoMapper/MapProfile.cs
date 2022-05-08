@@ -4,6 +4,7 @@ using hospitalAS.Dto.BloodTypeDtos;
 using hospitalAS.Dto.ClaimDtos;
 using hospitalAS.Dto.HospitalDtos;
 using hospitalAS.Dto.PoliclinicDtos;
+using hospitalAS.Dto.PrescriptionDtos;
 using hospitalAS.Dto.RoleDtos;
 using hospitalAS.Dto.UserDtos;
 using hospitalAS.Entities;
@@ -28,8 +29,10 @@ namespace hospitalAS.Business.Mapping.AutoMapper
             CreateMap<RegisterDto, User>();
             CreateMap<User, UpdateUserDto>().ReverseMap();
             CreateMap<AddAppointmentDto, Appointment>();
+            CreateMap<AddPrescriptionDto, Prescription>();
             CreateMap<User, ClaimDto>();
             CreateMap<User, ListUserDto>();
+            CreateMap<Prescription,ListPrescriptionDto>();
         }
     }
 }

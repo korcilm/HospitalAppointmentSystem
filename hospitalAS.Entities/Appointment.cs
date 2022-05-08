@@ -10,7 +10,6 @@ namespace hospitalAS.Entities
     public class Appointment:IEntity
     {
         public int Id { get; set; }
-        public int? PrescriptionId { get; set; }
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
         public int PoliclinicId { get; set; }
@@ -18,6 +17,6 @@ namespace hospitalAS.Entities
         public bool IsActive { get; set; }
         public Policlinic Policlinic { get; set; }
         public User User { get; set; }
-        public Prescription Prescription { get; set; }
+        public ICollection<Prescription> Prescriptions { get; set; }
     }
 }

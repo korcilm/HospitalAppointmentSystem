@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ListPrescriptionDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mt-5">
+    <div class="card-header">
+        Reçete
+        <a asp-action="AddPrescription" asp-route-id="@ViewBag.AppointmentId" class="btn btn-outline-info btn-lg px-3 float-end"> İlaç Yaz </a>
+    </div>
+
+    <div class="mt-4 row card-body ">
+
+        <div class="col-md-12">
+            @if (Model != null)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">İlaç Adı</th>
+                            <th scope="col">Açıklama</th>
+                            <th scope="col">Periyot</th>
+                            <th scope="col">Kullanım Şekli</th>
+                            <th scope="col">Kullanım Sayısı</th>
+                            <th scope="col">İlaç Adedi</th>
+                            <th scope="col">İşlemler</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">@item.Medicament</th>
+                                <td>@item.Description</td>
+                                <td>@item.Period</td>
+                                <td>@item.Usage</td>
+                                <td>@item.UsingCount</td>
+                                <td>@item.MedicamentCount</td>
+                                <td><a asp-action="CancelAppointment" asp-controller="Appointment" asp-route-id="@item.Id" class="btn btn-danger">Sil</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Reçetede ilaç bulunmamaktadır</p>
+            }
+        </div>
+    </div>
+
+</div>
+

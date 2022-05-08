@@ -26,7 +26,9 @@ namespace hospitalAS.Business.DIContainer
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, EfUserRepository>();           
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<IRoleRepository, EfRoleRepository>();            
+            services.AddScoped<IRoleRepository, EfRoleRepository>();          
+            services.AddScoped<IPrescriptionService, PrescriptionService>();
+            services.AddScoped<IPrescriptionRepository, EfPrescriptionRepository>();            
             services.AddScoped(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
 
         }

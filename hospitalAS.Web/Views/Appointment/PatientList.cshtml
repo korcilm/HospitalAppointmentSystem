@@ -42,7 +42,7 @@
                             @if (item.IsActive == true)
                             {
                                 <td><span class="badge bg-success">Aktif Randevu</span></td>
-                                <td><a asp-action="AddPrescription" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-info">Reçete Yaz</a></td>
+                                <td><a asp-action="Index" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-info">Reçete</a></td>
                             }
                             else
                             {

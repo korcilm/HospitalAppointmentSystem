@@ -1,12 +1,13 @@
-﻿using System;
+﻿using hospitalAS.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace hospitalAS.Entities
+namespace hospitalAS.Dto.PrescriptionDtos
 {
-    public class Prescription : IEntity
+    public class ListPrescriptionDto
     {
         public int Id { get; set; }
         public int AppointmentId { get; set; }
