@@ -142,7 +142,7 @@
             }).done(function (data) {
                 if (data == "true") {
                     alertify.success("Kaydınız başarıyla oluşturuldu");
-                    $(".btn-close").trigger('click');
+                    window.location.reload();
                 }
                 else {
                     alertify.success("Kaydınız başarısız lütfen tekrar deneyin");

@@ -12,16 +12,16 @@
 
                 <div class="col-xl-12 row">
                     <div class="col-xl-6">
-                        <input type="text" asp-for="Name" placeholder="Ad">
+                        <input type="text" asp-for="Name" class="form-control"  placeholder="Ad">
                         <span asp-validation-for="Name" class="text-danger"> </span>
                     </div>
                     <div class="col-xl-6 float-right">
-                        <input type="text" asp-for="Surname" placeholder="Soyad">
+                        <input type="text" asp-for="Surname" class="form-control"  placeholder="Soyad">
                         <span asp-validation-for="Surname" class="text-danger"> </span>
                     </div>
                 </div>
                 <div class="col-xl-12">
-                    <input type="text" asp-for="PhoneNumber" placeholder="Telefon Numarası">
+                    <input type="text" asp-for="PhoneNumber" class="form-control"  placeholder="Telefon Numarası">
                     <span asp-validation-for="PhoneNumber" class="text-danger"> </span>
                 </div>
                 <div class="col-xl-12 row">
@@ -38,17 +38,17 @@
                     </div>
                 </div>
 
-                <div class="col-xl-12">
-                    <textarea asp-for="Address" placeholder="Adres Giriniz"></textarea>
+                <div class="col-xl-12 mb-2">
+                    <textarea asp-for="Address" class="form-control" placeholder="Adres Giriniz"></textarea>
                     <span asp-validation-for="Address" class="text-danger"> </span>
                 </div>
                 <div class="col-xl-12">
-                    <input type="text" asp-for="IdentityNumber" placeholder="TC Kimlik No">
+                    <input type="text" asp-for="IdentityNumber" class="form-control"  placeholder="TC Kimlik No">
                     <span asp-validation-for="IdentityNumber" class="text-danger"> </span>
                 </div>
 
                 <div class="col-xl-12">
-                    <input type="password" asp-for="Password" placeholder="Şifre">
+                    <input type="password" asp-for="Password" class="form-control"  placeholder="Şifre">
                     <span asp-validation-for="Password" class="text-danger"> </span>
                 </div>
                 <div class="col-xl-12">

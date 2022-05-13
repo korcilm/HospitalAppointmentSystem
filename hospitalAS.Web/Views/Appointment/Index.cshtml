@@ -26,7 +26,6 @@
                             <th scope="col">Doktor</th>
                             <th scope="col">Poliklinik</th>
                             <th scope="col">Hastane</th>
-                            <th scope="col">Reçete</th>
                             <th scope="col">Aktif randevu mu?</th>
                             <th scope="col">İşlemler</th>
 
@@ -41,8 +40,7 @@
                                 <th scope="row">@item.Date.ToLocalTime()</th>
                                 <td>@item.UserName</td>
                                 <td>@item.PoliclinicName</td>
-                                <td>@item.HospitalName</td>
-                                <td><a asp-action="Index" asp-controller="Prescription" asp-route-id="@item.Id" class="btn btn-info">Reçete</a></td>
+                                <td>@item.HospitalName</td>                               
                                 @if (item.IsActive == true)
                                 {
                                     <td><span class="badge bg-success">Aktif Randevu</span></td>
@@ -188,12 +186,11 @@
             }).done(function (data) {
                 if (data == "true") {
                     alertify.success("Kaydınız başarıyla oluşturuldu");
-                    $(".btn-close").trigger('click');
                 }
                 else {
                     alertify.success("Kaydınız başarısız lütfen tekrar deneyin");
                 }
-            });
+            })
         }
 
     </script>

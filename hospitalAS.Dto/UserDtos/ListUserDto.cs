@@ -1,4 +1,6 @@
-﻿using hospitalAS.Entities;
+﻿using hospitalAS.Dto.BloodTypeDtos;
+using hospitalAS.Dto.RoleDtos;
+using hospitalAS.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,7 @@ namespace hospitalAS.Dto.UserDtos
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
         public int RoleId { get; set; }
-        public Role Role { get; set; }
-        public BloodType BloodType { get; set; }
+        public RoleListDto Role { get; set; }
+        public BloodTypeDropdownListDto BloodType { get; set; }
     }
 }
