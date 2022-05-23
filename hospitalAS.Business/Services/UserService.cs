@@ -57,5 +57,9 @@ namespace hospitalAS.Business.Services
             return _mapper.Map<IList<ListUserDto>>(users);
         }
 
+        public async Task<bool> IsExists(int id)
+        {
+            return await _userRepository.IsExists(id);
+        }
     }
 }

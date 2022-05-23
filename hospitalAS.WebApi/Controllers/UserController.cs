@@ -1,4 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
+using hospitalAS.Dto.UserDtos;
+using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,11 +19,51 @@ namespace hospitalAS.WebApi.Controllers
         {
             _userService = userService;
         }
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetUsers()
         {
-            var users =await _userService.GetAllUser();
+            var users = await _userService.GetAllUser();
             return Ok(users);
+        }
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUser(id);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound(new { message = $"({id}) Bu id ye ait kullanıcı bulunamadı" });
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddUser(RegisterDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.AddUser(model);
+                return Ok();
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpPut("[action]/{id}")]
+        [IsExists]
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.UpdateUser(model);
+                return Ok();
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpDelete("[action]/{id}")]
+        [IsExists]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _userService.GetUser(id);
+            user.IsActive = false;
+            await _userService.UpdateUser(user);
+            return Ok();
         }
     }
 }

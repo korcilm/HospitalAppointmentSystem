@@ -18,5 +18,6 @@ namespace hospitalAS.Business.Interfaces
         Task<UpdateUserDto> GetUser(int id);
         Task UpdateUser(UpdateUserDto model);
         Task<IList<ListUserDto>> GetAllUser();
+        Task<bool> IsExists(int id);
     }
 }

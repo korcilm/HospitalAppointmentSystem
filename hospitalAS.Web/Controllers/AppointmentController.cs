@@ -62,8 +62,8 @@ namespace hospitalAS.Web.Controllers
         [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> PatientList()
         {
-            var appointments = await _appointmentService.GetAllAppointmentsByDoctorId(await GetUserId());
-            return View(appointments);
+            var patients = await _appointmentService.GetAllAppointmentsByDoctorId(await GetUserId());
+            return View(patients);
         }
         [Authorize(Roles = "Patient")]
         public async Task<IActionResult> OutOfDateAppointment()
