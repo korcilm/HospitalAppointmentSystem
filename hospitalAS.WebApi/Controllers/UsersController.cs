@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.WebApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -47,7 +47,6 @@ namespace hospitalAS.WebApi.Controllers
             return Ok();
         }
 
-        //[IsExists]
         [ServiceFilter(typeof(ValidId<User>))]
         [ValidModel]
         [HttpPut("[action]/{id}")]
@@ -57,10 +56,9 @@ namespace hospitalAS.WebApi.Controllers
             return Ok();
         }
 
-        // [IsExists]
         [ServiceFilter(typeof(ValidId<User>))]
         [HttpDelete("[action]/{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _userService.GetUser(id);
