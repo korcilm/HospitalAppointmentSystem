@@ -13,13 +13,9 @@ namespace hospitalAS.Web.Controllers
     public class PrescriptionController : Controller
     {
         private readonly IPrescriptionService _prescriptionService;
-        private readonly IBloodTypeService _bloodTypeService;
-        private readonly IRoleService _roleService;
-        public PrescriptionController(IBloodTypeService bloodTypeService, IPrescriptionService prescriptionService, IRoleService roleService)
+        public PrescriptionController( IPrescriptionService prescriptionService)
         {
             _prescriptionService = prescriptionService;
-            _bloodTypeService = bloodTypeService;
-            _roleService = roleService;
         }
 
         public async Task<IActionResult> Index(int id)

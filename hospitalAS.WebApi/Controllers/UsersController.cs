@@ -1,6 +1,7 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.UserDtos;
 using hospitalAS.WebApi.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,16 +11,18 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
         [HttpGet("[action]")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userService.GetAllUser();
@@ -35,29 +38,28 @@ namespace hospitalAS.WebApi.Controllers
             }
             return NotFound(new { message = $"({id}) Bu id ye ait kullanıcı bulunamadı" });
         }
+
+        [ValidModel]
         [HttpPost("[action]")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUser(RegisterDto model)
         {
-            if (ModelState.IsValid)
-            {
-                await _userService.AddUser(model);
-                return Ok();
-            }
-            return BadRequest(ModelState);
+            await _userService.AddUser(model);
+            return Ok();
         }
-        [HttpPut("[action]/{id}")]
+       
         [IsExists]
+        [ValidModel]
+        [HttpPut("[action]/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDto model)
         {
-            if (ModelState.IsValid)
-            {
-                await _userService.UpdateUser(model);
-                return Ok();
-            }
-            return BadRequest(ModelState);
+            await _userService.UpdateUser(model);
+            return Ok();
         }
-        [HttpDelete("[action]/{id}")]
+        
         [IsExists]
+        [HttpDelete("[action]/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _userService.GetUser(id);

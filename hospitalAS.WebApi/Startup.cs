@@ -1,6 +1,7 @@
 using hospitalAS.Business.DIContainer;
 using hospitalAS.Business.Mapping.AutoMapper;
 using hospitalAS.DataAccess.Data;
+using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,7 @@ namespace hospitalAS.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "hospitalAS.WebApi", Version = "v1" });
             });
             services.AddContainerWithDependencies();
+            services.AddScoped(typeof(ValidId<>));
             var connectionString = Configuration.GetConnectionString("db");
             services.AddDbContext<hospitalASDbContext>(opt => opt.UseSqlServer(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
             services.AddAutoMapper(typeof(MapProfile));

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Interfaces
 {
-    public interface IUserService
+    public interface IUserService: IGenericService<User>
     {
         Task<ClaimDto> ValidateUser(string identityNumber, string password);
         Task<int> AddUser(RegisterDto model);

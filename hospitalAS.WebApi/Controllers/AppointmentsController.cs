@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.AppointmentDtos;
+using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,10 @@ namespace hospitalAS.WebApi.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IUserService _userService;
-        private readonly IHospitalService _hospitalService;
         private readonly IPoliclinicService _policlinicService;
-        public AppointmentsController(IAppointmentService appointmentService, IPoliclinicService policlinicService, IHospitalService hospitalService, IUserService userService)
+        public AppointmentsController(IAppointmentService appointmentService, IPoliclinicService policlinicService, IUserService userService)
         {
             _userService = userService;
-            _hospitalService = hospitalService;
             _appointmentService = appointmentService;
             _policlinicService = policlinicService;
         }
@@ -65,18 +64,15 @@ namespace hospitalAS.WebApi.Controllers
             var appointments = await _appointmentService.GetOutOfDateAppointmentByUserId(patientId);
             return Ok(appointments);
         }
+
         [Authorize(Roles = "Patient")]
+        [ValidModel]
         [HttpPost("[action]")]
         public async Task<IActionResult> TakeAnAppointment(AddAppointmentDto model)
         {
-            if (ModelState.IsValid)
-            {
-                model.PatientId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
-                await _appointmentService.AddAppointment(model);
-                return Ok("true");
-            }
-            return BadRequest(ModelState);
-           
+            model.PatientId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value);
+            await _appointmentService.AddAppointment(model);
+            return Ok("true");
         }
         [Authorize(Roles = "Patient")]
         [HttpDelete("[action]/{id}")]

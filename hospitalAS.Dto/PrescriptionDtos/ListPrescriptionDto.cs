@@ -1,4 +1,5 @@
-﻿using hospitalAS.Entities;
+﻿using hospitalAS.Dto.AppointmentDtos;
+using hospitalAS.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,5 @@ namespace hospitalAS.Dto.PrescriptionDtos
         public string Usage { get; set; }
         public int UsingCount { get; set; }
         public int MedicamentCount { get; set; }
-        public Appointment Appointment { get; set; }
     }
 }

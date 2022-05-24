@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Services
 {
-    public class UserService : IUserService
+    public class UserService :GenericService<User>, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IGenericRepository<User> genericRepository) :base(genericRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
