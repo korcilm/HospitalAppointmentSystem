@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Services
 {
-    public class PrescriptionService : IPrescriptionService
+    public class PrescriptionService : GenericService<Prescription>, IPrescriptionService
     {
         private readonly IPrescriptionRepository _prescriptionRepository;
         private readonly IMapper _mapper;
-        public PrescriptionService(IPrescriptionRepository prescriptionRepository, IMapper mapper)
+        public PrescriptionService(IPrescriptionRepository prescriptionRepository, IMapper mapper, IGenericRepository<Prescription> genericRepository):base(genericRepository)
         {
             _prescriptionRepository = prescriptionRepository;
             _mapper = mapper;

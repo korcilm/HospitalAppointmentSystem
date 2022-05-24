@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.PrescriptionDtos;
+using hospitalAS.Entities;
 using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,7 @@ namespace hospitalAS.WebApi.Controllers
             return CreatedAtAction(nameof(GetPrescriptionsByAppointmentId), routeValues: new { id = model.AppointmentId }, null);
         }
 
+        [ServiceFilter(typeof(ValidId<Prescription>))]
         [HttpDelete("[action]/{id}")]
         [Authorize(Roles = "Admin,Doctor")]
         public async Task<IActionResult> DeletePrescription(int id)

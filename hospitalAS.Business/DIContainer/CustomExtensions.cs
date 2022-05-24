@@ -30,6 +30,7 @@ namespace hospitalAS.Business.DIContainer
             services.AddScoped<IPrescriptionService, PrescriptionService>();
             services.AddScoped<IPrescriptionRepository, EfPrescriptionRepository>();            
             services.AddScoped(typeof(IGenericRepository<>), typeof(EfGenericRepository<>));
+            services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
         }
     }

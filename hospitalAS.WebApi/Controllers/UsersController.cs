@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.UserDtos;
+using hospitalAS.Entities;
 using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -28,15 +29,13 @@ namespace hospitalAS.WebApi.Controllers
             var users = await _userService.GetAllUser();
             return Ok(users);
         }
+
+        [ServiceFilter(typeof(ValidId<User>))]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
             var user = await _userService.GetUser(id);
-            if (user != null)
-            {
-                return Ok(user);
-            }
-            return NotFound(new { message = $"({id}) Bu id ye ait kullanıcı bulunamadı" });
+            return Ok(user);
         }
 
         [ValidModel]
@@ -47,8 +46,9 @@ namespace hospitalAS.WebApi.Controllers
             await _userService.AddUser(model);
             return Ok();
         }
-       
-        [IsExists]
+
+        //[IsExists]
+        [ServiceFilter(typeof(ValidId<User>))]
         [ValidModel]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDto model)
@@ -56,10 +56,11 @@ namespace hospitalAS.WebApi.Controllers
             await _userService.UpdateUser(model);
             return Ok();
         }
-        
-        [IsExists]
+
+        // [IsExists]
+        [ServiceFilter(typeof(ValidId<User>))]
         [HttpDelete("[action]/{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _userService.GetUser(id);

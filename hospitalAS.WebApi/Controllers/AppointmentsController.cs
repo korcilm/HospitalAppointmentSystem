@@ -1,5 +1,6 @@
 ﻿using hospitalAS.Business.Interfaces;
 using hospitalAS.Dto.AppointmentDtos;
+using hospitalAS.Entities;
 using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,8 @@ namespace hospitalAS.WebApi.Controllers
             await _appointmentService.AddAppointment(model);
             return Ok("true");
         }
+
+        [ServiceFilter(typeof(ValidId<Appointment>))]
         [Authorize(Roles = "Patient")]
         [HttpDelete("[action]/{id}")]
         public async Task<IActionResult> CancelAppointment(int id)

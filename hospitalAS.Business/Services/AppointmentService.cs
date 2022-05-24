@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace hospitalAS.Business.Services
 {
-    public class AppointmentService : IAppointmentService
+    public class AppointmentService : GenericService<Appointment>, IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMapper _mapper;
-        public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper)
+        public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper, IGenericRepository<Appointment> genericRepository):base(genericRepository)
         {
             _appointmentRepository = appointmentRepository;
             _mapper = mapper;
@@ -51,5 +51,7 @@ namespace hospitalAS.Business.Services
             var appointments = await _appointmentRepository.GetOutOfDateAppointmentByUserId(userId);
             return _mapper.Map<IList<ListAppointmentDto>>(appointments);
         }
+
+      
     }
 }
