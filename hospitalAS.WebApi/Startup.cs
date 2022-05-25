@@ -41,6 +41,7 @@ namespace hospitalAS.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "hospitalAS.WebApi", Version = "v1" });
             });
+            services.AddResponseCaching();
             services.AddContainerWithDependencies();
             services.AddScoped(typeof(ValidId<>));
             var connectionString = Configuration.GetConnectionString("db");
@@ -84,7 +85,7 @@ namespace hospitalAS.WebApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseResponseCaching();
             app.UseRouting();
             app.UseCors("Allow");
             app.UseAuthentication();

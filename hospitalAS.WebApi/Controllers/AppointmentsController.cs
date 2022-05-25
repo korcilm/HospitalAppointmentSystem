@@ -5,6 +5,7 @@ using hospitalAS.WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,16 +16,18 @@ namespace hospitalAS.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AppointmentsController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IUserService _userService;
         private readonly IPoliclinicService _policlinicService;
-        public AppointmentsController(IAppointmentService appointmentService, IPoliclinicService policlinicService, IUserService userService)
+        private readonly IHospitalService _hospitalService;
+        public AppointmentsController(IAppointmentService appointmentService, IHospitalService hospitalService, IPoliclinicService policlinicService, IUserService userService)
         {
             _userService = userService;
             _appointmentService = appointmentService;
+            _hospitalService = hospitalService;
             _policlinicService = policlinicService;
         }
         [Authorize(Roles = "Patient")]
@@ -35,20 +38,34 @@ namespace hospitalAS.WebApi.Controllers
             var appointments = await _appointmentService.GetAllAppointmentsByUserId(patientId);
             return Ok(appointments);
         }
+
         [Authorize(Roles = "Patient")]
+        [ResponseCache(Duration = 360, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent")]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> HospitalList()
+        {
+            var hospitals = await _hospitalService.GetAllHospitals();
+            return Ok(new { hospitals = hospitals, time = DateTime.Now });
+        }
+
+        [Authorize(Roles = "Patient")]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent", VaryByQueryKeys = new[] { "id" })]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> PoliclinicList(int id)
         {
             var policlinics = await _policlinicService.GetPoliclinicsByHospitalId(id);
-            return Ok(policlinics);
+            return Ok(new { policlinics = policlinics, time = DateTime.Now });
         }
+
         [Authorize(Roles = "Patient")]
+        [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Client, VaryByHeader = "User-Agent", VaryByQueryKeys = new[] { "id" })]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> DoctorList(int id)
         {
             var doctors = await _userService.GetDoctorsByPoliclinicId(id);
-            return Ok(doctors);
+            return Ok(new { doctors = doctors, time = DateTime.Now });
         }
+
         [Authorize(Roles = "Doctor")]
         [HttpGet("[action]")]
         public async Task<IActionResult> PatientList()
