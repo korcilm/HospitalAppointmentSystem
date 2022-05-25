@@ -26,7 +26,7 @@ namespace hospitalAS.WebApi.Controllers
         }
 
         [ValidModel]
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginDto model)
         {
             var user = await _userService.ValidateUser(model.IdentityNumber, model.Password);
@@ -63,6 +63,7 @@ namespace hospitalAS.WebApi.Controllers
             await _userService.AddUser(model);
             return Ok();
         }
+
 
     }
 }
